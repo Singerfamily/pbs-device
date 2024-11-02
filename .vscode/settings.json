@@ -1,0 +1,31 @@
+{
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nixd",
+  "nix.formatterPath": "nixfmt",
+  "nix.serverSettings": {
+    // "$schema": "https://raw.githubusercontent.com/nix-community/nixd/main/nixd/docs/nixd-schema.json",
+    // settings for 'nixd' LSP
+    "nixd": {
+      // "nixpkgs": {
+      //   "expr": "import (builtins.getFlake \"/home/esinger/projects/nixos\").inputs.nixpkgs { }"
+      // },
+
+      "formatting": {
+        // This is the default if ommited.
+        "command": ["nixfmt"]
+      },
+      "options": {
+        // By default, this entriy will be read from `import <nixpkgs> { }`
+        // You can write arbitary nix expression here, to produce valid "options" declaration result.
+        // Tip: for flake-based configuration, utilize `builtins.getFlake`
+        // "event-horizon": {
+        //   "expr": "(builtins.getFlake \"/home/esinger/projects/nixos\").nixosConfigurations.event-horizon.options"
+        // },
+        // "thinkpad-p53": {
+        //   "expr": "(builtins.getFlake \"/home/esinger/projects/nixos\").nixosConfigurations.thinkpad-p53.options"
+        // },
+      }
+    }
+  }
+}
