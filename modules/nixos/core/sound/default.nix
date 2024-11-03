@@ -5,7 +5,12 @@ in
 {
   config = lib.mkIf cfg.enable {
     security.rtkit.enable = lib.mkForce true;
-    hardware.pulseaudio.enable = lib.mkForce true;
+    hardware = {
+      pulseaudio = {
+        enable = true;
+        systemWide = true;
+      };
+    };
     # hardware.pulseaudio.enable = lib.mkForce false;
     # services.pipewire = {
     #   alsa = {

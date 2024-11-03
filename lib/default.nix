@@ -6,9 +6,7 @@
 }:
 
 let
-  homeConfiguration = "${self}/home";
   hostConfiguration = "${self}/hosts";
-  homeModules = "${homeConfiguration}/modules";
 
   modulesDir = "${self}/modules";
   systemModules = "${modulesDir}/nixos";
@@ -19,32 +17,6 @@ in
 {
 
   # ========================== Buildables ========================== #
-
-  # Helper function for generating home-manager configs
-  mkHome =
-    {
-      username ? "pbs",
-      hostname ? "nixos",
-      platform ? "x86_64-linux",
-    }:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      extraSpecialArgs = {
-        inherit
-          inputs
-          self
-          homeModules
-          systemModules
-          platform
-          username
-          hostname
-          stateVersion
-          ;
-      };
-
-      modules = [
-        "${homeConfiguration}"
-      ];
-    };
 
   # Helper function for generating host configs
   mkHost =
@@ -58,7 +30,6 @@ in
         inherit
           inputs
           self
-          homeModules
           systemModules
           hostname
           username
@@ -75,9 +46,24 @@ in
         # inputs.nixos-cli.nixosModules.nixos-cli
 
         hostConfiguration
-        homeConfiguration
 
         (import "${modulesDir}/disko.nix" { device = "/dev/nvme0n1"; })
+
+        {
+          users.users.${username} = {
+            isNormalUser = true;
+            initialHashedPassword = "$y$j9T$pFldoDmLYkMOqesV3yEsm/$Bf2f.nstUArIlM.BIEGXTm/fvw0uhfz5RqtoJbN9Z9A";
+
+            extraGroups = [
+              "wheel"
+              "video"
+              "audio"
+              "networkmanager"
+              "tss"
+            ];
+          };
+
+        }
       ];
     };
 

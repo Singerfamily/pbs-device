@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
     nixd
     binutils
@@ -9,4 +10,5 @@
     usbutils
     ethtool
   ];
+
 }
