@@ -25,7 +25,7 @@ in
     (pkgs.writeShellScriptBin "install-nixos-unattended" ''
       set -eux
       # Replace "/dev/disk/by-id/some-disk-id" with your actual disk ID
-      exec ${pkgs.disko}/bin/disko-install --flake "${self}#your-machine" --disk vdb "/dev/disk/by-id/some-disk-id"
+      exec ${pkgs.disko}/bin/disko-install --flake "${self}#${hostname}" --disk vdb "/dev/disk/by-id/some-disk-id"
     '')
   ];
 }

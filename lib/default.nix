@@ -24,7 +24,8 @@ in
       hostname ? "nixos",
       username ? "pbs",
       platform ? "x86_64-linux",
-      disk ? "/dev/nvme0n1",
+      disk ? throw "Set this to your disk device, e.g. /dev/nvme0n1",
+      diskById ? throw "Set this to your disk ID e.g. /dev/disk/by-id/<DISK_ID>",
     }:
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -39,6 +40,7 @@ in
           libx
           outputs
           disk
+          diskById
           ;
       };
 
