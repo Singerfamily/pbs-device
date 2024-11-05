@@ -39,13 +39,16 @@
         sslCertificate = "${cert}/cert.crt";
         sslCertificateKey = "${cert}/cert.key";
 
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:3000";
-          proxyWebsockets = true;
-        };
-        locations."/obs-ws" = {
-          proxyPass = "http://127.0.0.1:4455";
-          proxyWebsockets = true;
+
+        locations = {
+          "/" = {
+            proxyPass = "http://127.0.0.1:3000";
+            proxyWebsockets = true;
+          };
+          "/obs-ws" = {
+            proxyPass = "http://127.0.0.1:4455";
+            proxyWebsockets = true;
+          };
         };
       };
   };
