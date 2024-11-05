@@ -1,6 +1,9 @@
 {
-  device ? throw "Set this to your disk device, e.g. /dev/nvme0n1", 
-...}: {
+  device ? throw "Set this to your disk device, e.g. /dev/nvme0n1",
+  pkgs ? import <nixpkgs> { },
+  ...
+}:
+{
   disko.devices = {
     disk = {
       main = {
@@ -26,32 +29,34 @@
               content = {
                 type = "luks";
                 name = "crypted";
-                # disable settings.keyFile if you want to use interactive password entry
-                #passwordFile = "/tmp/secret.key"; # Interactive
                 settings = {
                   allowDiscards = true;
-                  # keyFile = "/tmp/secret.key";
+                  keyFile = pkgs.writeText "secret.key" "supersecret";
                 };
-                # additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
                 content = {
                   type = "btrfs";
                   extraArgs = [ "-f" ];
                   subvolumes = {
                     "/root" = {
                       mountpoint = "/";
-                      mountOptions = [ "compress=zstd" "noatime" ];
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                     "/home" = {
                       mountpoint = "/home";
-                      mountOptions = [ "compress=zstd" "noatime" ];
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                     "/nix" = {
                       mountpoint = "/nix";
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                    };
-                    "/swap" = {
-                      mountpoint = "/.swapvol";
-                      swap.swapfile.size = "20M";
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                   };
                 };

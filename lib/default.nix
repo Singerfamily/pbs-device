@@ -24,6 +24,7 @@ in
       hostname ? "nixos",
       username ? "pbs",
       platform ? "x86_64-linux",
+      disk ? "/dev/nvme0n1",
     }:
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -37,17 +38,19 @@ in
           stateVersion
           libx
           outputs
+          disk
           ;
       };
 
       modules = [
-        # inputs.lanzaboote.nixosModules.lanzaboote
         inputs.home-manager.nixosModules.home-manager
-        # inputs.nixos-cli.nixosModules.nixos-cli
 
         hostConfiguration
 
-        (import "${modulesDir}/disko.nix" { device = "/dev/nvme0n1"; })
+        (import "${modulesDir}/disko.nix" {
+          pkgs = inputs.nixpkgs;
+          device = disk;
+        })
 
         {
           users.users.${username} = {
