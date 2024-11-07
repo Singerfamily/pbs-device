@@ -4,8 +4,7 @@
   modulesPath,
   config,
   hostname,
-  pkgs ? import <nixpkgs> {},
-  diskById,
+  pkgs ? import <nixpkgs> { },
   ...
 }:
 let
@@ -21,6 +20,13 @@ let
   ] ++ builtins.map (i: i.outPath) (builtins.attrValues self.inputs);
 
   closureInfo = pkgs.closureInfo { rootPaths = dependencies; };
+
+  script = (
+    pkgs.writeShellScriptBin "install-nixos-unattended" ''
+      set -eux
+      exec ${pkgs.disko}/bin/disko-install --flake "github:singerfamily/pbs-device"
+    ''
+  );
 in
 {
   imports = [
@@ -34,8 +40,6 @@ in
     # Provide an initial copy of the NixOS channel so that the user
     # doesn't need to run "nix-channel --update" first.
     "${modulesPath}/installer/cd-dvd/channel.nix"
-
-    "../modules/nixos"
   ];
 
   users = {
@@ -55,6 +59,11 @@ in
       initialHasedPassword = "$y$j9T$IJF7cWEJkRH0Q8mSvTKmp/$Jw3pa2JLqBU7/AFD07La3lYN8DUNmK1wqLHBwBYXJW6";
     };
   };
+
+  nix.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # ISO naming.
   isoImage = {
@@ -84,10 +93,8 @@ in
     etc."install-closure".source = "${closureInfo}/store-paths";
 
     systemPackages = [
-      (pkgs.writeShellScriptBin "install-nixos-unattended" ''
-        set -eux
-        exec ${pkgs.disko}/bin/disko-install --flake "${self}#${hostname}" --disk nvme0n1 "${diskById}"
-      '')
+      pkgs.git
+      script
     ];
   };
 }

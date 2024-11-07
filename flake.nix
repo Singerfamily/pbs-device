@@ -49,6 +49,13 @@
 
           # Default Config
           pbs = libx.mkHost { };
+
+          installer = libx.mkHost {
+            hostname = "installer";
+            username = "nixos";
+            disk = "/dev/vda";
+            diskById = "/dev/disk/by-id/<DISK_ID>";
+          };
         };
 
         templates = import "${self}/templates" { inherit self; };
