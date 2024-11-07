@@ -31,7 +31,7 @@
                 name = "crypted";
                 settings = {
                   allowDiscards = true;
-                  keyFile = pkgs.writeText "secret.key" "supersecret";
+                  keyFile = "${pkgs.writeText "secret.key" "supersecret"}";
                 };
                 content = {
                   type = "btrfs";

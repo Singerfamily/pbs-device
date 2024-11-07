@@ -56,7 +56,7 @@ in
         {
           users.users.${username} = {
             isNormalUser = true;
-            initialHashedPassword = "$y$j9T$pFldoDmLYkMOqesV3yEsm/$Bf2f.nstUArIlM.BIEGXTm/fvw0uhfz5RqtoJbN9Z9A";
+            initialPassword = "pbs";
 
             extraGroups = [
               "wheel"

@@ -5,8 +5,7 @@
     ++ (libx.autoImport ./apps)
     ++ (libx.autoImport ./desktop)
     ++ (libx.autoImport ./hardware)
-    ++ (libx.autoImport ./services)
-    ++ (libx.autoImport ./virtualization);
+    ++ (libx.autoImport ./services);
 
   drivers = {
     # nvidia.enable = true;

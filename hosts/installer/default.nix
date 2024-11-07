@@ -11,22 +11,22 @@ let
   nixRev = if self.inputs.nixpkgs ? rev then self.inputs.nixpkgs.shortRev else "dirty";
   selfRev = if self ? rev then self.shortRev else "dirty";
 
-  dependencies = [
-    self.nixosConfigurations.${hostname}.config.system.build.toplevel
-    self.nixosConfigurations.${hostname}.config.system.build.diskoScript
-    self.nixosConfigurations.${hostname}.config.system.build.diskoScript.drvPath
-    self.nixosConfigurations.${hostname}.pkgs.stdenv.drvPath
-    (self.nixosConfigurations.${hostname}.pkgs.closureInfo { rootPaths = [ ]; }).drvPath
-  ] ++ builtins.map (i: i.outPath) (builtins.attrValues self.inputs);
+  # dependencies = [
+  #   self.nixosConfigurations.${hostname}.config.system.build.toplevel
+  #   self.nixosConfigurations.${hostname}.config.system.build.diskoScript
+  #   self.nixosConfigurations.${hostname}.config.system.build.diskoScript.drvPath
+  #   self.nixosConfigurations.${hostname}.pkgs.stdenv.drvPath
+  #   (self.nixosConfigurations.${hostname}.pkgs.closureInfo { rootPaths = [ ]; }).drvPath
+  # ] ++ builtins.map (i: i.outPath) (builtins.attrValues self.inputs);
 
-  closureInfo = pkgs.closureInfo { rootPaths = dependencies; };
+  # closureInfo = pkgs.closureInfo { rootPaths = dependencies; };
 
-  script = (
-    pkgs.writeShellScriptBin "install-nixos-unattended" ''
-      set -eux
-      exec ${pkgs.disko}/bin/disko-install --flake "github:singerfamily/pbs-device"
-    ''
-  );
+  # script = (
+  #   pkgs.writeShellScriptBin "install-nixos-unattended" ''
+  #     set -eux
+  #     exec ${pkgs.disko}/bin/disko-install --flake "github:singerfamily/pbs-device"
+  #   ''
+  # );
 in
 {
   imports = [
@@ -42,6 +42,8 @@ in
     "${modulesPath}/installer/cd-dvd/channel.nix"
   ];
 
+  nixpkgs.config.allowBroken = true;
+
   users = {
     mutableUsers = lib.mkForce false;
 
@@ -56,14 +58,9 @@ in
         "tss"
       ];
 
-      initialHasedPassword = "$y$j9T$IJF7cWEJkRH0Q8mSvTKmp/$Jw3pa2JLqBU7/AFD07La3lYN8DUNmK1wqLHBwBYXJW6";
+      # initialPassword = lib.mkForce "nixos";
     };
   };
-
-  nix.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
 
   # ISO naming.
   isoImage = {
@@ -89,12 +86,12 @@ in
   # in the flake.nix itself to get direct access to the `self` flake variable.
 
   # Now add `closureInfo` to your NixOS installer
-  environment = {
-    etc."install-closure".source = "${closureInfo}/store-paths";
+  # environment = {
+  #   etc."install-closure".source = "${closureInfo}/store-paths";
 
-    systemPackages = [
-      pkgs.git
-      script
-    ];
-  };
+  #   systemPackages = [
+  #     pkgs.git
+  #     script
+  #   ];
+  # };
 }

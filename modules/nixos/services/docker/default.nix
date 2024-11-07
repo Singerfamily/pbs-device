@@ -10,7 +10,7 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
-    hardware.nvidia-container-toolkit.enable = true;
+    # hardware.nvidia-container-toolkit.enable = true;
 
     users.users.${username}.extraGroups = [ "docker" ];
     virtualisation.docker = {
@@ -22,9 +22,9 @@ in
     };
 
     # Useful other development tools
-    environment.systemPackages = with pkgs; [
-      distrobox
-      dive # look into docker image layers
-    ];
+    # environment.systemPackages = with pkgs; [
+    #   distrobox
+    #   dive # look into docker image layers
+    # ];
   };
 }
