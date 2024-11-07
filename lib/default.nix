@@ -46,11 +46,11 @@ in
 
       modules = [
         inputs.home-manager.nixosModules.home-manager
+        inputs.disko.nixosModules.disko
 
         hostConfiguration
 
         (import "${modulesDir}/disko.nix" {
-          pkgs = inputs.nixpkgs;
           device = disk;
         })
 
