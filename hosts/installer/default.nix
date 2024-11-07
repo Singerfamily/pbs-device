@@ -3,6 +3,7 @@
   lib,
   modulesPath,
   config,
+  username,
   hostname,
   pkgs ? import <nixpkgs> { },
   ...
@@ -10,23 +11,6 @@
 let
   nixRev = if self.inputs.nixpkgs ? rev then self.inputs.nixpkgs.shortRev else "dirty";
   selfRev = if self ? rev then self.shortRev else "dirty";
-
-  # dependencies = [
-  #   self.nixosConfigurations.${hostname}.config.system.build.toplevel
-  #   self.nixosConfigurations.${hostname}.config.system.build.diskoScript
-  #   self.nixosConfigurations.${hostname}.config.system.build.diskoScript.drvPath
-  #   self.nixosConfigurations.${hostname}.pkgs.stdenv.drvPath
-  #   (self.nixosConfigurations.${hostname}.pkgs.closureInfo { rootPaths = [ ]; }).drvPath
-  # ] ++ builtins.map (i: i.outPath) (builtins.attrValues self.inputs);
-
-  # closureInfo = pkgs.closureInfo { rootPaths = dependencies; };
-
-  # script = (
-  #   pkgs.writeShellScriptBin "install-nixos-unattended" ''
-  #     set -eux
-  #     exec ${pkgs.disko}/bin/disko-install --flake "github:singerfamily/pbs-device"
-  #   ''
-  # );
 in
 {
   imports = [
@@ -44,23 +28,9 @@ in
 
   nixpkgs.config.allowBroken = true;
 
-  users = {
-    mutableUsers = lib.mkForce false;
+  services.getty.autologinUser = "${username}";
 
-    users.nixos = {
-      isNormalUser = true;
-      name = "nixos";
-      extraGroups = [
-        "wheel"
-        "video"
-        "audio"
-        "networkmanager"
-        "tss"
-      ];
-
-      # initialPassword = lib.mkForce "nixos";
-    };
-  };
+  users.mutableUsers = lib.mkForce false;
 
   # ISO naming.
   isoImage = {
@@ -82,16 +52,12 @@ in
   swapDevices = lib.mkImageMediaOverride [ ];
   fileSystems = lib.mkImageMediaOverride config.lib.isoFileSystems;
 
-  # `self` here is referring to the flake `self`, you may need to pass it using `specialArgs` or define your NixOS installer configuration
-  # in the flake.nix itself to get direct access to the `self` flake variable.
+  # environment.etc."install-closure".source = "${closureInfo}/store-paths";
 
-  # Now add `closureInfo` to your NixOS installer
-  # environment = {
-  #   etc."install-closure".source = "${closureInfo}/store-paths";
-
-  #   systemPackages = [
-  #     pkgs.git
-  #     script
-  #   ];
-  # };
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "install-nixos-unattended" ''
+      set -eux
+      exec ${pkgs.disko}/bin/disko-install --flake "${self}#pbs"
+    '')
+  ];
 }
