@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
 
   imports = [./secureboot.nix ];
 
@@ -9,7 +9,7 @@
       # plymouth.enable = true;
     };
 
-    # kernelPackages = pkgs.linuxPackages;
+    kernelPackages = lib.mkForce pkgs.linuxPackages;
 
     initrd = {
       systemd = {
