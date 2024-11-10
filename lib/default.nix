@@ -2,6 +2,7 @@
   self,
   inputs,
   stateVersion,
+  lib ? inputs.nixpkgs.lib,
   ...
 }:
 
@@ -56,7 +57,7 @@ in
         {
           users.users.${username} = {
             isNormalUser = true;
-            initialPassword = "pbs";
+            initialPassword = lib.mkForce "pbs";
 
             extraGroups = [
               "wheel"
