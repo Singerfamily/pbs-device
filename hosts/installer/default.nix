@@ -19,7 +19,7 @@ in
     "${modulesPath}/profiles/all-hardware.nix"
 
     # Let's get it booted in here
-    "${modulesPath}/installer/cd-dvd/iso-image.nix"
+    "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
 
     # Provide an initial copy of the NixOS channel so that the user
     # doesn't need to run "nix-channel --update" first.
@@ -30,11 +30,9 @@ in
 
   services.getty.autologinUser = "${username}";
 
-  users.mutableUsers = lib.mkForce false;
-
   # ISO naming.
   isoImage = {
-    isoName = "${hostname}-${nixRev}-${selfRev}.iso";
+    isoName = lib.mkForce "${hostname}-${nixRev}-${selfRev}.iso";
 
     # EFI + USB bootable
     makeEfiBootable = true;
