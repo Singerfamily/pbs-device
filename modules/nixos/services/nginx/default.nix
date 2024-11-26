@@ -24,12 +24,6 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
-
-    environment.etc."certs/${hostname}" = {
-      source = cert;
-      mode = "0644";
-    };
-
     networking.firewall.allowedTCPPorts = [
       80
       443
@@ -48,8 +42,8 @@ in
       virtualHosts."${hostname}" = {
         addSSL = true;
 
-        sslCertificate = "/etc/certs/${hostname}/cert.crt";
-        sslCertificateKey = "/etc/certs/${hostname}/cert.key";
+        sslCertificate = "${cert}/cert.crt";
+        sslCertificateKey = "${cert}/cert.key";
 
         locations = {
           "/" = {
