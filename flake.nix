@@ -41,7 +41,7 @@
       flake = {
         nixosConfigurations = {
           # Special Configs
-          seton-chapel = libx.mkHost {
+          seton = libx.mkHost {
             hostname = "seton-chapel";
             disk = "/dev/nvme0n1";
             diskById = "/dev/mmcblk0";
