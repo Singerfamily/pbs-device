@@ -50,10 +50,10 @@ in
 
         hostConfiguration
 
-        (import "${modulesDir}/disko.nix" {
-          device = disk;
-          pkgs = inputs.nixpkgs;
-        })
+        # (import "${modulesDir}/core/disko.nix" {
+        #   device = disk;
+        #   pkgs = inputs.nixpkgs;
+        # })
 
         {
           users.users.${username} = {
