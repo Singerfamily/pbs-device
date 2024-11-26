@@ -14,13 +14,13 @@
 let
   inherit (pkgs.stdenv) isDarwin;
   currentStateVersion = if isDarwin then stateVersionDarwin else stateVersion;
-  machineConfigurationPath = "${self}/hosts/${hostname}";
+  machineConfigurationPath = self + "/hosts/" + hostname;
   machineConfigurationPathExist = builtins.pathExists machineConfigurationPath;
 in
 {
   imports = [
-    "${systemModules}"
-  ] ++ lib.optional machineConfigurationPathExist machineConfigurationPath;
+    ./common
+  ] ++ systemModules ++ lib.optional machineConfigurationPathExist machineConfigurationPath;
 
   # facter.reportPath = machineConfigurationPath + "/facter.json";
 
