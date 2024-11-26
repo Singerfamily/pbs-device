@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }:
@@ -22,9 +21,7 @@
     "sdhci_pci"
     "mmc_block"
   ];
-  boot.initrd.kernelModules =
-    [
-    ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 

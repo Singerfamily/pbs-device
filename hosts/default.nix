@@ -22,7 +22,7 @@ in
     "${systemModules}"
   ] ++ lib.optional machineConfigurationPathExist machineConfigurationPath;
 
-  facter.reportPath = machineConfigurationPath + "/facter.json";
+  # facter.reportPath = machineConfigurationPath + "/facter.json";
 
   # System version
   system.stateVersion = currentStateVersion;

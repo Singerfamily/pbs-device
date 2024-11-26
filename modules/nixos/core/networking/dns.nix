@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 
 {
   # Enable Encrypted DNS
@@ -7,7 +7,7 @@
     # If using dhcpcd:
     dhcpcd.extraConfig = "nohook resolv.conf";
     # If using NetworkManager:
-    networkmanager.dns = "none";
+    networkmanager.dns = lib.mkDefault "none";
   };
 
   services.dnscrypt-proxy2 = {
