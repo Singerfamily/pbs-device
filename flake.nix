@@ -44,7 +44,7 @@
           seton-chapel = libx.mkHost {
             hostname = "seton-chapel";
             disk = "/dev/nvme0n1";
-            diskById = "/dev/disk/by-id/<DISK_ID>";
+            diskById = "/dev/mmcblk0";
           };
 
           # Default Config
