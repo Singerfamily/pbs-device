@@ -13,6 +13,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
     # Just for pretty flake.nix
@@ -42,19 +44,19 @@
         nixosConfigurations = {
           # Special Configs
           seton = libx.mkHost {
-            hostname = "seton-chapel";
+            hostname = "seton";
             disk = "/dev/mmcblk0";
           };
 
           # Default Config
           pbs = libx.mkHost { };
 
-          installer = libx.mkHost {
-            hostname = "installer";
-            username = "nixos";
-            disk = "/dev/vda";
-            diskById = "/dev/disk/by-id/<DISK_ID>";
-          };
+          # installer = libx.mkHost {
+          #   hostname = "installer";
+          #   username = "nixos";
+          #   disk = "/dev/vda";
+          #   diskById = "/dev/disk/by-id/<DISK_ID>";
+          # };
         };
 
         templates = import "${self}/templates" { inherit self; };

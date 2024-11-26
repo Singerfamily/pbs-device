@@ -11,4 +11,6 @@
     ethtool
   ];
 
+  hardware.enableRedistributableFirmware = true;
+
 }

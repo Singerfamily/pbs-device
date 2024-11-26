@@ -1,6 +1,16 @@
-{ pkgs, lib, ... }: {
+{
+  pkgs,
+  lib,
+  modulesPath,
+  ...
+}:
+{
 
-  imports = [./secureboot.nix ];
+  imports = [
+    ./secureboot.nix
+
+    (modulesPath + "/profiles/all-hardware.nix")
+  ];
 
   boot = {
     loader = {
@@ -13,13 +23,15 @@
 
     initrd = {
       systemd = {
-        enable = true;  # For auto unlock
+        enable = true; # For auto unlock
         tpm2 = {
           enable = true;
         };
+
+        emergencyAccess = "$y$j9T$Qcnt3AyroSriQXew5Zb7s/$DGROGy/aZI5JNACimSsnEVGGl/UHK11ZdhUvj3n4uJ9";
       };
       kernelModules = [ "tpm_crb" ];
-      availableKernelModules = ["tpm_crb"];
+      availableKernelModules = [ "tpm_crb" ];
     };
   };
 

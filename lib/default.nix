@@ -45,6 +45,7 @@ in
 
       modules = [
         inputs.disko.nixosModules.disko
+        inputs.nixos-facter-modules.nixosModules.facter
 
         hostConfiguration
 
