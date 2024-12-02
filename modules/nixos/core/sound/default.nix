@@ -5,10 +5,10 @@
     enable = lib.mkDefault true;
     systemWide = lib.mkDefault true;
     alsa = {
-      enable = lib.default true;
-      support32Bit = lib.default true;
+      enable = lib.mkDefault true;
+      support32Bit = lib.mkDefault true;
     };
-    pulse.enable = lib.default true;
-    jack.enable = lib.default true;
+    pulse.enable = lib.mkDefault true;
+    jack.enable = lib.mkDefault true;
   };
 }
