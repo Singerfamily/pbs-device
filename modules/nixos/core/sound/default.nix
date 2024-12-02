@@ -13,6 +13,8 @@ in
     # };
     hardware.pulseaudio.enable = lib.mkForce false;
     services.pipewire = {
+      enable = lib.mkForce true;
+      systemWide = true;
       alsa = {
         enable = lib.mkForce true;
         support32Bit = lib.mkForce true;
