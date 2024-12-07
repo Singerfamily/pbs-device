@@ -22,6 +22,12 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+
+    # My own stuff
+    pbs = {
+      url = "github:singerfamily/pbs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

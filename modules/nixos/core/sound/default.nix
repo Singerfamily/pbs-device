@@ -3,7 +3,7 @@
   hardware.pulseaudio.enable = lib.mkForce false;
   services.pipewire = {
     enable = lib.mkDefault true;
-    systemWide = lib.mkDefault true;
+    # systemWide = lib.mkDefault true;
     alsa = {
       enable = lib.mkDefault true;
       support32Bit = lib.mkDefault true;
