@@ -9,6 +9,10 @@
     nvtopPackages.full
     usbutils
     ethtool
+
+    lsof
+    lm_sensors
+    git
   ];
 
   hardware.enableRedistributableFirmware = true;
