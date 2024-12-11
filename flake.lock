@@ -145,17 +145,17 @@
         "pyproject-nix": "pyproject-nix"
       },
       "locked": {
-        "lastModified": 1733608208,
-        "narHash": "sha256-L66LzhJAYJcEj+B/vbk/u6eWs3E2mjsUa3kMQs/wSVk=",
+        "lastModified": 1733930956,
+        "narHash": "sha256-+HYAQqz9ct7bgpF9AhcWdU3U/SPiwS2DofK15apOhBk=",
         "ref": "refs/heads/main",
-        "rev": "ea53d6522a69027a6bd4878f07b538d79ebeb663",
-        "revCount": 62,
+        "rev": "fbb5aa59544e4afa78f09bc960615f6908800b46",
+        "revCount": 69,
         "type": "git",
-        "url": "file://git:/home/esinger/projects/PBS"
+        "url": "file:///home/esinger/projects/PBS"
       },
       "original": {
         "type": "git",
-        "url": "file://git:/home/esinger/projects/PBS"
+        "url": "file:///home/esinger/projects/PBS"
       }
     },
     "pyproject-nix": {
