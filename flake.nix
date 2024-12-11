@@ -25,7 +25,7 @@
 
     # My own stuff
     pbs = {
-      url = "github:singerfamily/pbs";
+      url = "git+file:///home/esinger/projects/PBS";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
