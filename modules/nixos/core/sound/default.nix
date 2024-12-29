@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ pkgs, lib, ... }:
+{
   security.rtkit.enable = lib.mkForce true;
   hardware.pulseaudio.enable = lib.mkForce false;
   services.pipewire = {
@@ -11,4 +12,6 @@
     pulse.enable = lib.mkDefault true;
     jack.enable = lib.mkDefault true;
   };
+
+  environment.systemPackages = [ pkgs.alsa-utils ];
 }
