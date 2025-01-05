@@ -3,7 +3,7 @@
 
   inputs = {
     # Official NixOS repo
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware";
 
