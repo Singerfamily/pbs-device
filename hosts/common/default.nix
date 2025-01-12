@@ -3,5 +3,5 @@
     nginx.enable = true;
   };
 
-  environment.systemPackages = [ inputs.pbs.packages.${platform}.default ];
+  # environment.systemPackages = [ inputs.pbs.packages.${platform}.default ];
 }

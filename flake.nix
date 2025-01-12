@@ -24,10 +24,10 @@
     };
 
     # My own stuff
-    pbs = {
-      url = "git+file:///home/esinger/projects/PBS";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # pbs = {
+    #   url = "git+file:///home/esinger/projects/PBS";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
