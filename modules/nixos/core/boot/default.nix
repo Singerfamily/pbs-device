@@ -24,9 +24,9 @@
     initrd = {
       systemd = {
         enable = true; # For auto unlock
-        tpm2 = {
-          enable = true;
-        };
+        # tpm2 = {
+        #   enable = true;
+        # };
 
         emergencyAccess = "$y$j9T$Qcnt3AyroSriQXew5Zb7s/$DGROGy/aZI5JNACimSsnEVGGl/UHK11ZdhUvj3n4uJ9";
       };
