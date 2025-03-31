@@ -1,13 +1,15 @@
 {
-  description = "NixOS Configurations";
-
   inputs = {
-    # Official NixOS repo
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
     # NixOS community
+
+
+    snowfall-lib = {
+      url = "github:snowfallorg/lib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,49 +18,32 @@
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
 
     vscode-server.url = "github:nix-community/nixos-vscode-server";
-
-    # Just for pretty flake.nix
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-
-    # My own stuff
-    # pbs = {
-    #   url = "git+file:///home/esinger/projects/PBS";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs =
-    { self, flake-parts, ... }@inputs:
-    let
-      linuxArch = "x86_64-linux";
-      linuxArmArch = "aarch64-linux";
-      darwinArch = "aarch64-darwin";
-      stateVersion = "24.11";
-      libx = import ./lib { inherit self inputs stateVersion; };
-    in
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        linuxArch
-        linuxArmArch
-        darwinArch
-      ];
+    inputs:
+    inputs.snowfall-lib.mkFlake {
+      inherit inputs;
+      src = ./.;
 
-      flake = {
-        nixosConfigurations = {
-          # Special Configs
-          seton = libx.mkHost {
-            hostname = "seton";
-            disk = "/dev/mmcblk0";
-          };
+      # Configure Snowfall Lib, all of these settings are optional.
+      snowfall = {
+        # Tell Snowfall Lib to look in the `./nix/` directory for your
+        # Nix files.
+        root = ./nix;
 
-          # Default Config
-          pbs = libx.mkHost { };
+        # Choose a namespace to use for your flake's packages, library,
+        # and overlays.
+        namespace = "my-namespace";
+
+        # Add flake metadata that can be processed by tools like Snowfall Frost.
+        meta = {
+          # A slug to use in documentation when displaying things like file paths.
+          name = "my-awesome-flake";
+
+          # A title to show for your flake, typically the name.
+          title = "My Awesome Flake";
         };
-
-        templates = import "${self}/templates" { inherit self; };
       };
     };
 }
