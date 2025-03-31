@@ -34,7 +34,7 @@
 
         # Choose a namespace to use for your flake's packages, library,
         # and overlays.
-        namespace = "my-namespace";
+        namespace = "pbs";
 
         # Add flake metadata that can be processed by tools like Snowfall Frost.
         meta = {
