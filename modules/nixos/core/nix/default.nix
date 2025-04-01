@@ -18,6 +18,7 @@
         "nix-command"
         "flakes"
         "ca-derivations"
+        "pipe-operators"
       ];
       warn-dirty = false;
       system-features = [
