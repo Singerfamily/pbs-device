@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 {
   security.rtkit.enable = lib.mkForce true;
-  hardware.alsa.enablePersistence = lib.mkDefault true;
+  hardware.alsa.enablePersistence = true;
   services.pipewire = {
     enable = lib.mkDefault true;
     systemWide = lib.mkDefault true;
