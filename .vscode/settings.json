@@ -19,9 +19,9 @@
         // By default, this entriy will be read from `import <nixpkgs> { }`
         // You can write arbitary nix expression here, to produce valid "options" declaration result.
         // Tip: for flake-based configuration, utilize `builtins.getFlake`
-        // "event-horizon": {
-        //   "expr": "(builtins.getFlake \"/home/esinger/projects/nixos\").nixosConfigurations.event-horizon.options"
-        // },
+        "seton": {
+          "expr": "(builtins.getFlake \"/home/esinger/projects/pbs-device\").nixosConfigurations.seton.options"
+        },
         // "thinkpad-p53": {
         //   "expr": "(builtins.getFlake \"/home/esinger/projects/nixos\").nixosConfigurations.thinkpad-p53.options"
         // },
