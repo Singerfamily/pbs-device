@@ -27,47 +27,45 @@ with lib;
   config = {
     users.users = mkMerge (
       users
-      |> map (
-        username:
-        {
-          ${username} = mkMerge [
-            {
-              hashedPasswordFile = config.sops.secrets."passwords/${username}".path;
-              openssh.authorizedKeys.keys = [
-                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWHFM4TnBtRI0YPjg3RNkh4axZ6fC/BrchvOh6r5aLj"
-              ];
-              
-              extraGroups = [
-                "video"
-                "audio"
-                "networkmanager"
-                "builders"
-              ];
-            }
-          ];
-        }
-      )
+      |> map (username: {
+        ${username} = mkMerge [
+          {
+            hashedPasswordFile = config.sops.secrets."passwords/${username}".path;
+            openssh.authorizedKeys.keys = [
+              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWHFM4TnBtRI0YPjg3RNkh4axZ6fC/BrchvOh6r5aLj"
+            ];
+
+            extraGroups = [
+              "video"
+              "audio"
+              "networkmanager"
+              "builders"
+            ];
+          }
+        ];
+      })
     );
 
     # Enable global programs if any user uses the shell
-    programs = 
-      let
-        hasShell = shellName: any (username:
-          config.home-manager.users.${username}.snowfall.cli.shell.default == shellName
-        ) users;
-      in
-      {
-        zsh.enable = hasShell "zsh";
-        fish.enable = hasShell "fish";
-        # nushell.enable = hasShell "nushell";
-      };
+    # programs =
+    #   let
+    #     hasShell = shellName: any (username:
+    #       config.home-manager.users.${username}.snowfall.cli.shell.default == shellName
+    #     ) users;
+    #   in
+    #   {
+    #     zsh.enable = hasShell "zsh";
+    #     fish.enable = hasShell "fish";
+    #     # nushell.enable = hasShell "nushell";
+    #   };
 
     sops.secrets = mkMerge (
-      map (username: {
+      users
+      |> map (username: {
         "passwords/${username}" = {
           neededForUsers = true;
         };
-      }) users
+      })
     );
   };
 }
