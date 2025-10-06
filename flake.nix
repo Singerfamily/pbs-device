@@ -83,14 +83,10 @@
       # Global NixOS modules.
       systems.modules.nixos = with inputs; [
         determinate.nixosModules.default
-        vscode-server.nixosModules.default
         home-manager.nixosModules.home-manager
         sops-nix.nixosModules.sops
-        impermanence.nixosModules.impermanence
         lanzaboote.nixosModules.lanzaboote
         disko.nixosModules.disko
-        nix-flatpak.nixosModules.nix-flatpak
-        # nix-topology.nixosModules.default
       ];
 
       # Overlays for Nixpkgs.
