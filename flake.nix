@@ -23,6 +23,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-facter-modules = {
+      url = "github:numtide/nixos-facter-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # VSCode server
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
@@ -93,6 +98,7 @@
         sops-nix.nixosModules.sops
         lanzaboote.nixosModules.lanzaboote
         disko.nixosModules.disko
+        nixos-facter-modules.nixosModules.facter
       ];
 
       # Overlays for Nixpkgs.
