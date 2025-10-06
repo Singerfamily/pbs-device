@@ -1,9 +1,11 @@
 keys:
+  - &user age1sc69qpjhpt3s30p2wgssuvse9j6dhzl2e3p2xshq0yr4gqf3ys3qasx5yr
   - &event-horizon age15vcpw49v9djmtdz2ssq26rv5mg6el83znzzrvdqfh8ujdvv9rfas5g6lrf
   - &seton age1uqa7qfglrvadgecsnfu9fd7muqh5n9ma5t59lg29vpqw9k4nw5ws0y4wer
 creation_rules:
   - path_regex: secrets/*.yaml$
     key_groups:
     - age:
+      - *user
       - *event-horizon
       - *seton

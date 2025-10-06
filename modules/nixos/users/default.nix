@@ -29,11 +29,6 @@ with lib;
       users
       |> map (
         username:
-        let
-          user = config.home-manager.users.${username};
-          shell = user.snowfall.cli.shell;
-          fullName = user.snowfall.user.fullName;
-        in
         {
           ${username} = mkMerge [
             {
@@ -48,25 +43,7 @@ with lib;
                 "networkmanager"
                 "builders"
               ];
-
-              description = fullName;
             }
-
-            (mkIf (shell.default == "bash") {
-              shell = pkgs.bash;
-            })
-
-            (mkIf (shell.default == "zsh") {
-              shell = pkgs.zsh;
-            })
-
-            (mkIf (shell.default == "fish") {
-              shell = pkgs.fish;
-            })
-
-            (mkIf (shell.default == "nushell") {
-              shell = pkgs.nushell;
-            })
           ];
         }
       )
