@@ -1,51 +1,116 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    # SECTION: Core inputs.
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # SECTION: Nix libraries.
+    # Nix flake framework.
     snowfall-lib = {
-      url = "github:snowfallorg/lib";
+      url = "github:LeaderbotX400/snowfall-lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko/latest";
+    # VSCode server
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
+
+    # Standalone library for the Nix language.
+    nix-std.url = "github:chessai/nix-std";
+
+    # Atomic secret provisioning for NixOS.
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Persistent state on systems with ephemeral root storage.
+    impermanence.url = "github:nix-community/impermanence";
+
+    # Collection of image builders.
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Declarative disk partitioning and formatting using Nix.
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # SECTION: Hardware.
+    # Lanzaboote, UEFI secure boot for NixOS.
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # NixOS modules covering hardware quirks.
+    hardware.url = "github:nixos/nixos-hardware";
   };
 
   outputs =
-    inputs:
-    let
-      lib = inputs.snowfall-lib.mkLib {
-        inherit inputs;
-        src = ./.;
-
-        # Configure Snowfall Lib, all of these settings are optional.
-        snowfall = {
-          # Choose a namespace to use for your flake's packages, library,
-          # and overlays.
-          namespace = "pbs";
-
-          # Add flake metadata that can be processed by tools like Snowfall Frost.
-          meta = {
-            name = "pbs";
-            title = "pbs";
-          };
-        };
+    { ... }@inputs:
+    inputs.snowfall-lib.mkFlake {
+      inherit inputs;
+      src = builtins.path {
+        path = ./.;
+        name = "flake-src";
       };
-    in
-    lib.mkFlake {
+
+      # Snowfall Lib configuration.
+      snowfall = {
+        namespace = "snowfall";
+      };
+
       channels-config = {
         allowUnfree = true;
-        permittedInsecurePackages = [
-        ];
+        permittedInsecurePackages = [ ];
       };
 
-      # Add modules to all NixOS systems.
-      systems.modules.nixos = with inputs; [
-        disko.nixosModules.disko
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        backupFileExtension = ".bak";
+      };
 
-        
+      # Global NixOS modules.
+      systems.modules.nixos = with inputs; [
+        determinate.nixosModules.default
+        vscode-server.nixosModules.default
+        home-manager.nixosModules.home-manager
+        sops-nix.nixosModules.sops
+        impermanence.nixosModules.impermanence
+        lanzaboote.nixosModules.lanzaboote
+        disko.nixosModules.disko
+        nix-flatpak.nixosModules.nix-flatpak
+        # nix-topology.nixosModules.default
       ];
+
+      # Overlays for Nixpkgs.
+      overlays = with inputs; [
+      ];
+
+      templates = {
+      };
+
+      alias = {
+      };
+
+      # NOTE: An example for future self.
+      # outputs-builder = channels: {
+      #     topology = import inputs.nix-topology {
+      #         pkgs = channels.nixpkgs;
+      #         modules = [
+      #             { inherit (outputs) nixosConfigurations; }
+      #         ];
+      #     };
+      # };
     };
 }
