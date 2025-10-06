@@ -13,7 +13,7 @@ with lib;
     docker = {
       enable = mkOption {
         type = with types; bool;
-        default = false;
+        default = true;
         description = "Whether to enable the Docker daemon";
       };
 

@@ -13,7 +13,7 @@ with lib;
   options.snowfall.cli = {
     enable = {
       type = types.bool;
-      default = true;
+      default = false;
       description = "CLI support for Snowfall users";
     };
 

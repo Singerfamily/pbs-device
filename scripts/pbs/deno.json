@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "@std/cli": "jsr:@std/cli@^1.0.19",
+    "consola": "npm:consola@^3.4.2",
+    "get-port-please": "npm:get-port-please@^3.1.2",
+    "google-auth-library": "npm:google-auth-library@^9.15.1",
+    "googleapis": "npm:googleapis@^149.0.0",
+    "uqr": "npm:uqr@^0.1.2"
+  }
+}

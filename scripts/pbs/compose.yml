@@ -1,0 +1,26 @@
+services:
+  pbs:
+    image: ghcr.io/singerfamily/pbs:preview
+    container_name: pbs
+    build: .
+    privileged: true
+    volumes:
+      - "./obs/storage:/config/.pbs:rw"
+      - "./obs/config:/config/.config/obs-studio:rw"
+      - "./obs/assets:/assets:rw"
+      - "./obs/scripts:/scripts:rw"
+      - "./obs/init:/custom-cont-init.d"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/var/run/tailscale:/var/run/tailscale:ro" # Tailscale socket for network access
+    environment:
+      - PUID=0
+      - PGID=0
+      - PBS_START_VISIBILITY=private
+      - PBS_STOP_DELETE=True
+    shm_size: 16gb
+    network_mode: host
+    tty: true
+    stdin_open: true
+    devices:
+      - "/dev/snd:/dev/snd"
+      - "/dev/net/tun:/dev/net/tun"
