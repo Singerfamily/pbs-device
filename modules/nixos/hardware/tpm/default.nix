@@ -13,7 +13,7 @@ with lib;
     # Whether to use TPM2 for secure boot.
     enable = mkOption {
       type = with types; bool;
-      default = true;
+      default = false;
     };
   };
 

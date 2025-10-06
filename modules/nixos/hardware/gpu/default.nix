@@ -13,14 +13,14 @@ with lib;
     core.enable = mkOption {
       description = "Whether to add common GPU-related modules";
       type = with types; bool;
-      default = true;
+      default = false;
     };
 
     intel = {
       enable = mkOption {
         description = "Whether to support Intel graphics";
         type = with types; bool;
-        default = true;
+        default = false;
       };
       busID = mkOption {
         description = "Intel iGPU PCI bus ID";
@@ -70,25 +70,6 @@ with lib;
         environment.variables = {
           ELECTRON_OZONE_PLATFORM_HINT = "auto";
         };
-
-        environment.systemPackages = with pkgs; [
-          nvtopPackages.full
-        ];
-
-        # Exclude `nvtop` from minimal systems.
-        # environment.systemPackages =
-        #   with pkgs;
-        #   (
-        #     if
-        #       !(builtins.elem config.networking.hostName [
-        #       ])
-        #     then
-        #       [ (nvtopPackages.intel.override { nvidia = nvidia.enable; }) ]
-        #     else
-        #       [
-        #         nvtopPackages.full
-        #       ]
-        #   );
       })
 
       (mkIf intel.enable {
@@ -125,7 +106,6 @@ with lib;
         hardware.amdgpu = {
           initrd.enable = mkDefault true;
           opencl.enable = mkDefault true;
-          # amdvlk.enable = mkDefault true;
         };
       })
 

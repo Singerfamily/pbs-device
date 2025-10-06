@@ -12,7 +12,7 @@ with lib;
   options.snowfall.crypto = {
     enable = mkOption {
       type = with types; bool;
-      default = true;
+      default = false;
       description = "Whether to enable cryptography support";
     };
   };
