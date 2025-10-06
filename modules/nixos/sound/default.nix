@@ -13,7 +13,7 @@ with lib;
     enable = mkOption {
       description = "Whether to enable PipeWire sound system";
       type = with types; bool;
-      default = false;
+      default = true;
     };
   };
 

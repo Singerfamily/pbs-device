@@ -17,6 +17,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Nix User Repository - a collection of Nix packages and modules.
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # VSCode server
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
@@ -91,6 +97,7 @@
 
       # Overlays for Nixpkgs.
       overlays = with inputs; [
+        nur.overlays.default
       ];
 
       templates = {

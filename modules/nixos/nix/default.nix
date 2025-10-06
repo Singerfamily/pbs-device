@@ -41,7 +41,7 @@
   }) config.nix.registry;
 
   system.autoUpgrade = {
-    enable = true;
+    enable = false;
     dates = "0 4 * * 0"; # runs weekly on Sunday at 04:00
     flake = "github:singerfamily/nixos";
     allowReboot = true;

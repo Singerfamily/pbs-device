@@ -19,7 +19,7 @@ with lib;
     # Whether to open port 9 for WakeOnLAN.
     allowWOL = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 
