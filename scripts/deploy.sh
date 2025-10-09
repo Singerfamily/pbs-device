@@ -29,7 +29,8 @@ cleanup() {
   if [ "$SOPS_KEY_ADDED" = true ] && [ $? -ne 0 ]; then
     echo "Deployment failed, removing added age key from .sops.yaml"
     # Remove the line containing the configuration name that was just added
-    sed -i "/# $CONFIGURATION$/d" .sops.yaml
+    mv .sops.yaml.bak .sops.yaml
+    # sed -i "/# $CONFIGURATION$/d" .sops.yaml
     # Optionally update keys again to reflect the change
     sops updatekeys ./secrets/secrets.yaml 2>/dev/null || true
   fi
@@ -45,6 +46,8 @@ ssh-keygen -t ed25519 -f "$temp/etc/ssh/ssh_host_ed25519_key" -N ""
 
 # Set the correct permissions so sshd will accept the key
 chmod 600 "$temp/etc/ssh/ssh_host_ed25519_key"
+
+cp .sops.yaml .sops.yaml.bak
 
 # Load keys to sops
 echo "      - $(ssh-to-age < $temp/etc/ssh/ssh_host_ed25519_key.pub) # $CONFIGURATION" >> .sops.yaml
