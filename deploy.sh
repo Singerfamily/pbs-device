@@ -9,6 +9,12 @@ fi
 HOST="$1"
 CONFIGURATION="$2"
 
+# check if we have the "--no-reboot" argument
+if [ "$3" == "--no-reboot" ]; then
+  echo "Reboot disabled"
+  export NIXOS_ANYWHERE_NO_REBOOT=1
+fi
+
 # Create a temporary directory
 # temp=$(mktemp -d)
 
@@ -46,4 +52,14 @@ SOPS_KEY_ADDED=true
 
 sops updatekeys ./secrets/secrets.yaml
 
-nix run github:nix-community/nixos-anywhere -- --extra-files "$temp" --flake .#$CONFIGURATION --target-host $HOST --phases kexec,disko,install
+# Default phases to run
+# kexec,disko,install,reboot
+# If we have the "--no-reboot" argument, skip the reboot phase
+phases="kexec,disko,install"
+if [ "$NIXOS_ANYWHERE_NO_REBOOT" = "1" ]; then
+  echo "Reboot disabled, skipping reboot phase"
+else
+  phases="kexec,disko,install,reboot"
+fi
+
+nix run github:nix-community/nixos-anywhere -- --extra-files "$temp" --flake .#$CONFIGURATION --target-host $HOST --phases $phases
