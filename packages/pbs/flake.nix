@@ -2,6 +2,7 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    deno2nix.url = "git+file:///home/esinger/projects/deno2nix";
   };
 
   outputs =
@@ -9,8 +10,13 @@
     inputs.flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = (import (inputs.nixpkgs) { inherit system; });
+        pkgs = (
+          import (inputs.nixpkgs) {
+            inherit system;
 
+            overlays = [ inputs.deno2nix.overlays.default ];
+          }
+        );
       in
       {
         devShell =
@@ -32,6 +38,22 @@
               ]);
             runScript = "zsh";
           }).env;
+
+        cli = pkgs.deno2nix.mkExecutable {
+          pname = "simple-executable";
+          version = "0.1.0";
+
+          src = ./.;
+          bin = "simple";
+
+          entrypoint = "./cli/main.ts";
+          lockfile = "./deno.lock";
+          config = "./deno.json";
+
+          allow = {
+            all = true;
+          };
+        };
 
         # devShell = pkgs.mkShell {
         #   nativeBuildInputs = with pkgs; [
@@ -119,14 +141,13 @@
 
         # default = self.obs;
 
-        docker = pkgs.dockerTools.buildImage {
-          name = "hello-docker";
-          tag = "latest";
-          config = {
-            Cmd = [ "${pkgs.hello}/bin/hello" ];
-          };
-        };
-
+        # docker = pkgs.dockerTools.buildImage {
+        #   name = "hello-docker";
+        #   tag = "latest";
+        #   config = {
+        #     Cmd = [ "${pkgs.hello}/bin/hello" ];
+        #   };
+        # };
       }
     );
 }
