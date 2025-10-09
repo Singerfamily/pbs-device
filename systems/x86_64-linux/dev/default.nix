@@ -7,6 +7,10 @@
 #   stopScript = "${pkgs.docker}/bin/docker compose -f ${execPath}/docker-compose.yml down";
 # in
 {
+  imports = [
+    ./disko.nix
+  ];
+  
   programs.nix-ld.enable = true;
 
   facter.reportPath = ./facter.json;
