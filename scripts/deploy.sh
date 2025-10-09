@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+cd "$(dirname "$0")/.."
+
 # Check for required arguments
 if [ "$#" -ne 2 ]; then
   echo "Usage: $0 <host> <configuration>"
@@ -16,9 +18,7 @@ if [ "$3" == "--no-reboot" ]; then
 fi
 
 # Create a temporary directory
-# temp=$(mktemp -d)
-
-temp=./temp
+temp=$(mktemp -d)
 
 # Variable to track if we added a key to .sops.yaml
 SOPS_KEY_ADDED=false

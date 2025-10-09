@@ -25,7 +25,6 @@
 
     nixos-facter-modules = {
       url = "github:numtide/nixos-facter-modules";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # VSCode server
