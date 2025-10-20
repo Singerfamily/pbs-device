@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """
-Hymn Recognition CLI
+Recognition CLI
 
-Command-line interface for the hymn recognition system.
+Command-line interface for the audio recognition system.
 """
 
 import argparse
 import sys
 import os
-from recognizer import AudioRecognizer
-from database import FingerprintDatabase
-from realtime_recognizer import RealtimeRecognizer
+from core.recognizer import AudioRecognizer
+from core.database import FingerprintDatabase
+from core.realtime_recognizer import RealtimeRecognizer
+from utils.logger import setup_logger
 
 
 def recognize_command(args):
