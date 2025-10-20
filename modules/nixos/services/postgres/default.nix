@@ -52,7 +52,28 @@ with lib;
     mkIf enable (mkMerge [
       {
         services.postgresql = {
-            enable = true;
+          enable = true;
+
+          ensureDatabases = [
+            "hymn_fingerprints"
+          ];
+
+        #   ensureUsers = [
+        #     {
+        #       name = "replication";
+
+        #       type = {
+        #         login = true;
+        #         replication = true;
+        #       };
+        #     }
+        #   ];
+
+          # Same as pg_hba.conf
+        #   authentication = ''
+        #     # Allow local connections
+        #     local   all             all                                     trust
+        #   '';
         };
       }
     ]);
