@@ -24,9 +24,9 @@ import multiprocessing
 import subprocess
 import io
 
-from utils.logger import setup_logger, ProgressLogger
-from utils.exceptions import AudioProcessingError, InvalidFileFormatError
-from utils.config import config
+from ..utils.logger import setup_logger, ProgressLogger
+from ..utils.exceptions import AudioProcessingError, InvalidFileFormatError
+from ..utils.config import config
 
 
 class AudioFingerprinter:

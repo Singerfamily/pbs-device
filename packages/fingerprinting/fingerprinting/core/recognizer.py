@@ -9,11 +9,11 @@ from typing import List, Tuple, Dict, Optional
 from collections import Counter
 import numpy as np
 
-from fingerprint import AudioFingerprinter
-from database import FingerprintDatabase
-from utils.logger import setup_logger, ProgressLogger
-from utils.exceptions import RecognitionError
-from utils.config import config
+from .fingerprint import AudioFingerprinter
+from .database import FingerprintDatabase
+from ..utils.logger import setup_logger, ProgressLogger
+from ..utils.exceptions import RecognitionError
+from ..utils.config import config
 
 
 class AudioRecognizer:

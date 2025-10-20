@@ -11,9 +11,9 @@ from typing import Optional, Callable, List, Dict
 from collections import deque
 import threading
 import time
-from fingerprint import AudioFingerprinter
-from database import FingerprintDatabase
-from utils.logger import setup_logger, ProgressLogger
+from .fingerprint import AudioFingerprinter
+from .database import FingerprintDatabase
+from ..utils.logger import setup_logger, ProgressLogger
 
 
 class RealtimeRecognizer:

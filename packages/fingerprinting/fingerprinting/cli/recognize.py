@@ -8,10 +8,16 @@ Command-line interface for the audio recognition system.
 import argparse
 import sys
 import os
-from core.recognizer import AudioRecognizer
-from core.database import FingerprintDatabase
-from core.realtime_recognizer import RealtimeRecognizer
-from utils.logger import setup_logger
+from fingerprinting.core.recognizer import AudioRecognizer
+from fingerprinting.core.database import FingerprintDatabase
+from fingerprinting.utils.logger import setup_logger
+
+# Optional: realtime recognizer requires sounddevice
+try:
+    from fingerprinting.core.realtime_recognizer import RealtimeRecognizer
+    REALTIME_AVAILABLE = True
+except ImportError:
+    REALTIME_AVAILABLE = False
 
 
 def recognize_command(args):
@@ -123,6 +129,11 @@ def clear_command(args):
 
 def realtime_command(args):
     """Handle the realtime command."""
+    if not REALTIME_AVAILABLE:
+        print("Error: Real-time recognition requires the 'sounddevice' package.")
+        print("Install it with: pip install sounddevice")
+        return
+    
     recognizer = RealtimeRecognizer(
         dbname=args.dbname,
         user=args.user,

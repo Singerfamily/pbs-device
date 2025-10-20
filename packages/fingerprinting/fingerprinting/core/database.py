@@ -7,9 +7,9 @@ from psycopg2 import pool
 from psycopg2.extras import execute_batch
 import psycopg2
 
-from utils.logger import setup_logger, ProgressLogger
-from utils.exceptions import DatabaseError
-from utils.config import config
+from ..utils.logger import setup_logger, ProgressLogger
+from ..utils.exceptions import DatabaseError
+from ..utils.config import config
 
 
 class FingerprintDatabase():

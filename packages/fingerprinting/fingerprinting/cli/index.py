@@ -9,10 +9,10 @@ import os
 import glob
 import argparse
 from tqdm import tqdm
-from core.fingerprint import AudioFingerprinter
-from core.database import FingerprintDatabase
-from utils.logger import setup_logger, ProgressLogger
-from utils.exceptions import AudioProcessingError, DatabaseError
+from fingerprinting.core.fingerprint import AudioFingerprinter
+from fingerprinting.core.database import FingerprintDatabase
+from fingerprinting.utils.logger import setup_logger, ProgressLogger
+from fingerprinting.utils.exceptions import AudioProcessingError, DatabaseError
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import multiprocessing
 

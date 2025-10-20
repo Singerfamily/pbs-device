@@ -2,9 +2,9 @@
 Utility modules for configuration, logging, and exceptions.
 """
 
-from config import config, Config
-from logger import setup_logger, ProgressLogger
-from exceptions import (
+from .config import Config, config
+from .logger import setup_logger, ProgressLogger
+from .exceptions import (
     FingerprintException,
     AudioProcessingError,
     DatabaseError,

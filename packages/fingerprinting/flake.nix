@@ -31,6 +31,7 @@
             matplotlib
             tqdm
             psycopg2
+            sounddevice
           ])
         ];
       in
