@@ -20,12 +20,17 @@
           (with pkgs; [
             python3
             ffmpeg
-            alsa-utils
           ])
 
           (with pkgs.python3Packages; [
-            pysilero-vad
-            torchaudio
+            numpy
+            scipy
+            librosa
+            soundfile
+            pydub
+            matplotlib
+            tqdm
+            psycopg2
           ])
         ];
       in
@@ -37,7 +42,7 @@
         default = pkgs.stdenv.mkDerivation {
           pname = "hymn-recognition";
           version = "0.1.0";
-          src = ./fingerprint;
+          src = ./src;
           buildInputs = pythonDeps;
           dontBuild = true;
           installPhase = ''
