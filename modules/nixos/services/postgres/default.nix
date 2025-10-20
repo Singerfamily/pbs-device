@@ -54,27 +54,31 @@ with lib;
         services.postgresql = {
           enable = true;
 
+          initialScript = pkgs.writeText "init-sql-script" ''
+            # alter user postgres with password 'myPassword';
+          '';
+
           ensureDatabases = [
-            "hymn_fingerprints"
+            "fingerprints"
           ];
 
-        #   ensureUsers = [
-        #     {
-        #       name = "replication";
-
-        #       type = {
-        #         login = true;
-        #         replication = true;
-        #       };
-        #     }
-        #   ];
+          ensureUsers = [
+            {
+              name = "pbs";
+              ensureClauses = {
+                login = true;
+              };
+            }
+          ];
 
           # Same as pg_hba.conf
-        #   authentication = ''
-        #     # Allow local connections
-        #     local   all             all                                     trust
-        #   '';
+          authentication = ''
+            # Allow local connections
+            local   all             all                      d               trust
+          '';
         };
+
+        networking.firewall.allowedTCPPorts = [ 5432 ];
       }
     ]);
 }

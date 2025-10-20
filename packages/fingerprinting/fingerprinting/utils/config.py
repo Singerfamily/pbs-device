@@ -14,7 +14,7 @@ from typing import Optional
 class DatabaseConfig:
     """PostgreSQL database configuration."""
     
-    dbname: str = os.getenv("FINGERPRINT_DB_NAME", "hymn_fingerprints")
+    dbname: str = os.getenv("FINGERPRINT_DB_NAME", "fingerprints")
     user: str = os.getenv("FINGERPRINT_DB_USER", "postgres")
     password: str = os.getenv("FINGERPRINT_DB_PASSWORD", "postgres")
     host: str = os.getenv("FINGERPRINT_DB_HOST", "localhost")
