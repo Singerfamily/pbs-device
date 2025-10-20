@@ -180,7 +180,7 @@ class AudioFingerprinter:
         # Compute Short-Time Fourier Transform
         stft = librosa.stft(
             audio,
-            n_fft=self.FFT_WINDOW_SIZE,
+            n_fft=self.fft_window_size,
             hop_length=self.hop_length,
             window='hann'
         )
@@ -205,7 +205,7 @@ class AudioFingerprinter:
         """
         # Create a structural element for finding local maxima
         struct = generate_binary_structure(2, 1)
-        neighborhood = iterate_structure(struct, self.PEAK_NEIGHBORHOOD_SIZE)
+        neighborhood = iterate_structure(struct, self.peak_neighborhood_size)
 
         # Find local maxima
         local_max = maximum_filter(spectrogram, footprint=neighborhood) == spectrogram
@@ -318,13 +318,13 @@ class AudioFingerprinter:
                 time_delta = t2 - t1
 
                 # Check if time delta is within valid range
-                if time_delta < self.MIN_TIME_DELTA:
+                if time_delta < self.min_time_delta:
                     continue
-                if time_delta > self.MAX_TIME_DELTA:
+                if time_delta > self.max_time_delta:
                     break  # No need to check further peaks
 
                 # Limit the number of peaks paired with each anchor
-                if j > i + self.FAN_VALUE:
+                if j > i + self.fan_value:
                     break
 
                 # Create hash from peak pair
