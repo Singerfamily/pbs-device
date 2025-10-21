@@ -32,6 +32,7 @@
             tqdm
             psycopg2
             sounddevice
+            python-lsp-server
           ])
         ];
       in
