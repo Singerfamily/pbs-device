@@ -2,9 +2,9 @@ import os
 from typing import List, Tuple, Dict, Optional
 from collections import defaultdict
 
-from psycopg2 import pool
-from psycopg2.extras import execute_batch
-import psycopg2
+from psycopg import pool, Error
+from psycopg_pool import ConnectionPool
+import psycopg
 
 from ..utils.logger import setup_logger, ProgressLogger
 from ..utils.exceptions import DatabaseError
@@ -50,7 +50,7 @@ class FingerprintDatabase():
         self.progress = ProgressLogger(self.logger)
         
         try:
-            self.connection_pool = pool.ThreadedConnectionPool(
+            self.connection_pool = ConnectionPool(
                 minconn=1,
                 maxconn=max_conn,
                 dbname=self.dbname,
@@ -60,7 +60,7 @@ class FingerprintDatabase():
                 port=self.port
             )
             self.progress.success(f"Connected to database: {self.dbname}")
-        except psycopg2.Error as e:
+        except Error as e:
             raise DatabaseError(
                 f"Failed to connect to PostgreSQL database '{self.dbname}' "
                 f"at {self.host}:{self.port}. Error: {str(e)}. "
@@ -86,7 +86,7 @@ class FingerprintDatabase():
         """
         conn = self._get_connection()
         try:
-            cursor = conn.cursor()
+            cursor: psycopg.cursor.Cursor = conn.cursor()
 
             # Table for songs/hymns
             cursor.execute("""
@@ -142,7 +142,7 @@ class FingerprintDatabase():
 
             conn.commit()
             self.logger.debug("Database schema initialized successfully")
-        except psycopg2.Error as e:
+        except Error as e:
             raise DatabaseError(f"Failed to initialize database schema: {str(e)}")
         finally:
             self._return_connection(conn)
@@ -202,8 +202,7 @@ class FingerprintDatabase():
             data = [(hash_val, time_offset, hymn_number)
                     for hash_val, time_offset in fingerprints]
 
-            # Use execute_batch for efficient bulk insert (much faster than executemany)
-            execute_batch(
+            cursor.executemany(
                 cursor,
                 "INSERT INTO fingerprints (hash, time_offset, hymn_number) VALUES (%s, %s, %s)",
                 data,

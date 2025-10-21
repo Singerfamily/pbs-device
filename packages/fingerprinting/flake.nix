@@ -30,7 +30,8 @@
             pydub
             matplotlib
             tqdm
-            psycopg2
+            psycopg
+            psycopg-pool
             sounddevice
             python-lsp-server
           ])
