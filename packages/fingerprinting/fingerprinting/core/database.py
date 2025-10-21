@@ -91,13 +91,13 @@ class FingerprintDatabase():
             # Table for songs/hymns
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS songs (
-                hymn_number INTEGER PRIMARY KEY,
-                filepath TEXT UNIQUE NOT NULL,
-                title TEXT NOT NULL,
-                duration_seconds REAL,
-                fingerprint_count INTEGER DEFAULT 0,
-                indexed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    hymn_number INTEGER PRIMARY KEY,
+                    filepath TEXT UNIQUE NOT NULL,
+                    title TEXT NOT NULL,
+                    duration_seconds REAL,
+                    fingerprint_count INTEGER DEFAULT 0,
+                    indexed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
 
