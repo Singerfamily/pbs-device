@@ -90,51 +90,51 @@ class FingerprintDatabase():
 
             # Table for songs/hymns
             cursor.execute("""
-        CREATE TABLE IF NOT EXISTS songs (
-          hymn_number INTEGER PRIMARY KEY,
-          filepath TEXT UNIQUE NOT NULL,
-          title TEXT NOT NULL,
-          duration_seconds REAL,
-          fingerprint_count INTEGER DEFAULT 0,
-          indexed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-      """)
+                CREATE TABLE IF NOT EXISTS songs (
+                hymn_number INTEGER PRIMARY KEY,
+                filepath TEXT UNIQUE NOT NULL,
+                title TEXT NOT NULL,
+                duration_seconds REAL,
+                fingerprint_count INTEGER DEFAULT 0,
+                indexed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
 
             # Table for fingerprints
             cursor.execute("""
-          CREATE TABLE IF NOT EXISTS fingerprints (
-              id BIGSERIAL PRIMARY KEY,
-              hash TEXT NOT NULL,
-              time_offset INTEGER NOT NULL,
-              hymn_number INTEGER NOT NULL,
-              CONSTRAINT fk_hymn 
-                  FOREIGN KEY (hymn_number) 
-                  REFERENCES songs(hymn_number) 
-                  ON DELETE CASCADE
-          )
-      """)
+                CREATE TABLE IF NOT EXISTS fingerprints (
+                    id BIGSERIAL PRIMARY KEY,
+                    hash TEXT NOT NULL,
+                    time_offset INTEGER NOT NULL,
+                    hymn_number INTEGER NOT NULL,
+                    CONSTRAINT fk_hymn 
+                        FOREIGN KEY (hymn_number) 
+                        REFERENCES songs(hymn_number) 
+                        ON DELETE CASCADE
+                )
+            """)
 
             # Create optimized indices for fast lookup
             cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_hash 
-        ON fingerprints USING HASH (hash)
-      """)
+                CREATE INDEX IF NOT EXISTS idx_hash 
+                ON fingerprints USING HASH (hash)
+            """)
 
             cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_hymn_number 
-        ON fingerprints(hymn_number)
-      """)
+                CREATE INDEX IF NOT EXISTS idx_hymn_number 
+                ON fingerprints(hymn_number)
+            """)
 
             cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_hash_hymn 
-        ON fingerprints(hash, hymn_number)
-      """)
+                CREATE INDEX IF NOT EXISTS idx_hash_hymn 
+                ON fingerprints(hash, hymn_number)
+            """)
 
             cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_time_offset 
-        ON fingerprints(time_offset)
-      """)
+                CREATE INDEX IF NOT EXISTS idx_time_offset 
+                ON fingerprints(time_offset)
+            """)
 
             # Optimize database settings
             cursor.execute("SET max_parallel_workers_per_gather = 4")
@@ -175,14 +175,14 @@ class FingerprintDatabase():
 
             # Use INSERT ON CONFLICT for upsert behavior
             cursor.execute("""
-              INSERT INTO songs (hymn_number, filepath, title, fingerprint_count, indexed_at, updated_at)
-              VALUES (%s, %s, %s, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-              ON CONFLICT (hymn_number) 
-              DO UPDATE SET 
-                  filepath = EXCLUDED.filepath,
-                  title = EXCLUDED.title,
-                  updated_at = CURRENT_TIMESTAMP
-          """, (hymn_number, filepath, title))
+                INSERT INTO songs (hymn_number, filepath, title, fingerprint_count, indexed_at, updated_at)
+                VALUES (%s, %s, %s, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                ON CONFLICT (hymn_number) 
+                DO UPDATE SET 
+                    filepath = EXCLUDED.filepath,
+                    title = EXCLUDED.title,
+                    updated_at = CURRENT_TIMESTAMP
+            """, (hymn_number, filepath, title))
 
             conn.commit()
             return hymn_number
@@ -212,10 +212,10 @@ class FingerprintDatabase():
 
             # Update fingerprint count in songs table
             cursor.execute("""
-              UPDATE songs 
-              SET fingerprint_count = %s, updated_at = CURRENT_TIMESTAMP 
-              WHERE hymn_number = %s
-          """, (len(fingerprints), hymn_number))
+                UPDATE songs 
+                SET fingerprint_count = %s, updated_at = CURRENT_TIMESTAMP 
+                WHERE hymn_number = %s
+            """, (len(fingerprints), hymn_number))
 
             conn.commit()
         finally:
@@ -240,10 +240,10 @@ class FingerprintDatabase():
             # The HASH index on hash column makes this very fast
             # We select only the columns we need to minimize data transfer
             cursor.execute("""
-              SELECT hash, hymn_number, time_offset 
-              FROM fingerprints 
-              WHERE hash = ANY(%s)
-          """, (hashes,))
+                SELECT hash, hymn_number, time_offset 
+                FROM fingerprints 
+                WHERE hash = ANY(%s)
+            """, (hashes,))
 
             # Process results efficiently
             for db_hash, hymn_number, db_time in cursor.fetchall():
@@ -262,11 +262,11 @@ class FingerprintDatabase():
         try:
             cursor = conn.cursor()
             cursor.execute("""
-              SELECT hymn_number, filepath, title, duration_seconds, 
-                      fingerprint_count, indexed_at, updated_at 
-              FROM songs 
-              WHERE hymn_number = %s
-          """, (hymn_number,))
+                SELECT hymn_number, filepath, title, duration_seconds, 
+                        fingerprint_count, indexed_at, updated_at 
+                FROM songs 
+                WHERE hymn_number = %s
+            """, (hymn_number,))
             result = cursor.fetchone()
 
             if result:
@@ -289,11 +289,11 @@ class FingerprintDatabase():
         try:
             cursor = conn.cursor()
             cursor.execute("""
-              SELECT hymn_number, filepath, title, duration_seconds, 
-                      fingerprint_count, indexed_at, updated_at 
-              FROM songs 
-              ORDER BY hymn_number
-          """)
+                SELECT hymn_number, filepath, title, duration_seconds, 
+                        fingerprint_count, indexed_at, updated_at 
+                FROM songs 
+                ORDER BY hymn_number
+            """)
             results = cursor.fetchall()
 
             songs = []
