@@ -199,14 +199,11 @@ class FingerprintDatabase():
             cursor.execute("DELETE FROM fingerprints WHERE hymn_number = %s", (hymn_number,))
 
             # Prepare data for batch insert
-            data = [(hash_val, time_offset, hymn_number)
-                    for hash_val, time_offset in fingerprints]
+            data = [(hash_val, time_offset, hymn_number) for hash_val, time_offset in fingerprints]
 
             cursor.executemany(
-                cursor,
                 "INSERT INTO fingerprints (hash, time_offset, hymn_number) VALUES (%s, %s, %s)",
                 data,
-                page_size=2000  # Insert in batches of 2000 (increased from 1000)
             )
 
             # Update fingerprint count in songs table
