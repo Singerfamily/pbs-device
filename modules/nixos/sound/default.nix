@@ -18,15 +18,18 @@ with lib;
   };
 
   config = mkIf config.snowfall.sound.enable {
+    security.rtkit.enable = true;
+
+    boot.extraModprobeConfig = ''
+      options snd_hda_intel power_save=0
+    '';
+
     services.pipewire = {
       enable = true;
       wireplumber.enable = true;
       pulse.enable = true;
       jack.enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
+      alsa.enable = true;
     };
 
     # TODO: maybe add `pamixer` for easy volume control.
