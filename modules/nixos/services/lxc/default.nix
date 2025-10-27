@@ -50,8 +50,10 @@ with lib;
         };
 
         # NOTE: Needed for `lxd` user group permissions.
-        users.users.${lib.snowfall.user}.extraGroups = [ "lxd" ];
-
+        users.users = snowfall.mapUsersToGroup {
+          groups = [ "lxd" ];
+          users = builtins.attrNames (config.home-manager.users or { });
+        };
       })
 
       (mkIf incus.enable {

@@ -16,6 +16,10 @@ in
     ACTION=="remove", SUBSYSTEM=="video4linux", KERNEL=="video0", RUN+="${stopScript}"
   '';
 
+  environment.systemPackages = with pkgs; [
+    snowfall.pbs
+  ];
+
   services.cage = {
     enable = true;
     user = "pbs";

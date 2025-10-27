@@ -46,8 +46,8 @@ with lib;
         };
 
         users.users = snowfall.mapUsersToGroup {
-          group = "tss";
-          users = users;
+          groups = [ "tpm" ];
+          users = builtins.attrNames (config.home-manager.users or { });
         };
       })
     ];
