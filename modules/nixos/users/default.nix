@@ -46,19 +46,6 @@ with lib;
       })
     );
 
-    # Enable global programs if any user uses the shell
-    # programs =
-    #   let
-    #     hasShell = shellName: any (username:
-    #       config.home-manager.users.${username}.snowfall.cli.shell.default == shellName
-    #     ) users;
-    #   in
-    #   {
-    #     zsh.enable = hasShell "zsh";
-    #     fish.enable = hasShell "fish";
-    #     # nushell.enable = hasShell "nushell";
-    #   };
-
     sops.secrets = mkMerge (
       users
       |> map (username: {
