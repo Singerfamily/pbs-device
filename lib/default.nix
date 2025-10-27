@@ -1,15 +1,15 @@
 { lib, ... }:
 {
-
   mapUsersToGroup = (
     {
       users ? throw "users must be specified",
-      group ? throw "group must be specified",
+      groups ? throw "group must be specified",
     }:
     lib.mkMerge (
-      map (username: {
-        ${username}.extraGroups = lib.mkAfter [ group ];
-      }) users
+      users
+      |> map (username: {
+        ${username}.extraGroups = lib.mkAfter groups;
+      })
     )
   );
 
