@@ -70,7 +70,7 @@ async fn main() {
                 .await
                 .expect("Failed to bind stream to broadcast");
 
-            set_obs_stream_key(&stream_key, String::from("Default")).await;
+            set_obs_stream_key(&stream_key, String::from("Untitled")).await;
 
             db.execute(
                 "
