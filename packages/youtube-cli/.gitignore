@@ -1,0 +1,7 @@
+/target
+working_dir/credentials.json
+working_dir/token.json
+
+working_dir/
+
+.direnv/

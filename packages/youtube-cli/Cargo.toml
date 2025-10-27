@@ -1,0 +1,20 @@
+[package]
+name = "pbs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5.48", features = ["env", "derive"] }
+google-youtube3 = { version = "6.0.0" }
+serde_json = { version = "1.0.145" }
+hyper = { version = "1", features = ["full"] }
+tokio = { version = "1.47.1", features = ["full"] }
+hyper-util = { version = "0.1", features = ["full"] }
+serde = { version = "1.0.225", features = ["derive"] }
+hyper-rustls = { version = "0.27.7" , default-features = false, features = ["http1", "logging", "native-tokio", "tls12", "ring"]}
+chrono = "0.4.42"
+strum_macros = "0.27.2"
+ratatui = "0.29.0"
+color-eyre = "0.6.5"
+crossterm = "0.29.0"
+rusqlite = { version = "0.37.0", features = ["bundled"] }
