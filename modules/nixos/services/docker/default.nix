@@ -37,15 +37,17 @@ with lib;
         enable
         implementation
         ;
-
-      users = builtins.attrNames (config.home-manager.users or { });
     in
     mkIf enable (mkMerge [
       {
         hardware.nvidia-container-toolkit.enable = config.snowfall.hardware.gpu.nvidia.enable;
-        users.users = snowfall.mapUsersToGroup {
-          group = "docker";
-          users = users;
+
+        users.users = snowfall.mapUsersToGroups {
+          groups = [
+            "docker"
+            "podman"
+          ];
+          users = builtins.attrNames (config.home-manager.users or { });
         };
 
         virtualisation.containers.enable = true;

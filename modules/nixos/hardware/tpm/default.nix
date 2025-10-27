@@ -45,7 +45,7 @@ with lib;
           tctiEnvironment.enable = true;
         };
 
-        users.users = snowfall.mapUsersToGroup {
+        users.users = snowfall.mapUsersToGroups {
           groups = [ "tpm" ];
           users = builtins.attrNames (config.home-manager.users or { });
         };

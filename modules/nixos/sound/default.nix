@@ -20,7 +20,7 @@ with lib;
   config = mkIf config.snowfall.sound.enable {
     security.rtkit.enable = true;
 
-    users.users = snowfall.mapUsersToGroup {
+    users.users = snowfall.mapUsersToGroups {
       groups = [
         "audio"
         "rtkit"

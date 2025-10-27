@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  mapUsersToGroup = (
+  mapUsersToGroups = (
     {
       users ? throw "users must be specified",
       groups ? throw "group must be specified",

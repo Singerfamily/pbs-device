@@ -16,15 +16,15 @@
 	// 	"description": "Log output to console"
 	// }
 
-	"MapUsersToGroups": {
+	"mapUsersToGroupss": {
 		"scope": "nix",
-		"prefix": "mapUsersToGroups",
+		"prefix": "mapUsersToGroupss",
 		"body": [
-			"users.users = snowfall.mapUsersToGroup {",
+			"users.users = snowfall.mapUsersToGroups {",
 			"  groups = [ $1 ];",
 			"  users = builtins.attrNames (config.home-manager.users or { });",
 			"};"
 		],
-		"description": "Map multiple users to multiple groups using snowfall.mapUsersToGroup"
+		"description": "Map multiple users to multiple groups using snowfall.mapUsersToGroups"
 	}
 }

@@ -50,7 +50,7 @@ with lib;
         };
 
         # NOTE: Needed for `lxd` user group permissions.
-        users.users = snowfall.mapUsersToGroup {
+        users.users = snowfall.mapUsersToGroups {
           groups = [ "lxd" ];
           users = builtins.attrNames (config.home-manager.users or { });
         };
