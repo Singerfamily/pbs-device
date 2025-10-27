@@ -41,8 +41,8 @@ in
       ExecStartPost = "${pkgs.docker}/bin/docker compose -f /home/pbs/selkies/docker-compose.yml up -d";
 
       # Stop docker compose first, then stop the PBS control tool
-      ExecStop = "${pkgs.docker}/bin/docker compose -f /home/pbs/selkies/docker-compose.yml down";
-      ExecStopPost = "${pkgs.snowfall.pbs}/bin/pbs stop";
+      ExecStop = "${pkgs.snowfall.pbs}/bin/pbs stop";
+      ExecStopPost = "${pkgs.docker}/bin/docker compose -f /home/pbs/selkies/docker-compose.yml down";
       User = "pbs";
 
       RemainAfterExit = true;
