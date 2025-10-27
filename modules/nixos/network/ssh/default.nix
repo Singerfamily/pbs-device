@@ -18,7 +18,7 @@ with lib;
 
     server = mkOption {
       type = with types; nullOr bool;
-      default = false;
+      default = true;
       description = "Whether allow SSH'ing into this machine (whether to run a server)";
     };
   };
@@ -33,10 +33,10 @@ with lib;
     mkMerge [
       {
 
-        # services.openssh.hostKeys = let 
+        # services.openssh.hostKeys = let
         #   inherit (config.networking) hostName;
         # in [
-        #   { 
+        #   {
         #     path = config.sops.secrets."ssh/${hostName}".path;
         #     type = "ed25519";
         #   }
@@ -54,6 +54,8 @@ with lib;
       }
 
       (mkIf (enable && server != null) {
+        networking.firewall.allowedTCPPorts = lib.mkDefault [ 22 ];
+
         services.openssh = {
           enable = server;
 
