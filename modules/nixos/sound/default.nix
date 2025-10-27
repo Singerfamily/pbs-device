@@ -21,8 +21,11 @@ with lib;
     security.rtkit.enable = true;
 
     users.users = snowfall.mapUsersToGroup {
-      group = "rtkit";
-      users = users;
+      groups = [
+        "audio"
+        "rtkit"
+      ];
+      users = builtins.attrNames (config.home-manager.users or { });
     };
 
     boot.extraModprobeConfig = ''
