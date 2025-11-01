@@ -4,7 +4,10 @@ use std::path::{Path, PathBuf};
 pub fn set_working_dir() {
     #[cfg(not(debug_assertions))]
     fn path() -> PathBuf {
-        return env::home_dir().unwrap().join(".pbs");
+        if let Ok(dir) = env::var("PBS_WORKING_DIR") {
+            return PathBuf::from(dir);
+        }
+        return dirs::home_dir().unwrap().join(".pbs");
     }
 
     #[cfg(debug_assertions)]
