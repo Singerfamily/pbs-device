@@ -4,11 +4,11 @@ use chrono::prelude::*;
 use google_youtube3::api::*;
 
 // Creation
-pub async fn create_stream_key(title: Option<&str>) -> google_youtube3::Result<LiveStream> {
+pub async fn create_stream_key(title: Option<&str>) -> Result<LiveStream, google_youtube3::Error> {
     let yt = authenticate().await;
 
     let mut req = LiveStream::default();
-
+    
     req.cdn = Some(CdnSettings {
         ingestion_type: Some("rtmp".to_string()),
         resolution: Some("variable".to_string()),
