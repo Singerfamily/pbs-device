@@ -7,7 +7,7 @@ pub fn set_working_dir() {
         if let Ok(dir) = env::var("PBS_WORKING_DIR") {
             return PathBuf::from(dir);
         }
-        return dirs::home_dir().unwrap().join(".pbs");
+        return env::home_dir().unwrap().join(".pbs");
     }
 
     #[cfg(debug_assertions)]
