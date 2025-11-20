@@ -2,6 +2,11 @@
   programs.nix-ld.enable = true;
 
   facter.reportPath = ./facter.json;
+
+  environment.variables = {
+    VISIBILITY = "public";
+    PBS_WORKING_DIR = "/home/pbs/.pbs";
+  };
   
   services.cage = {
     enable = true;
