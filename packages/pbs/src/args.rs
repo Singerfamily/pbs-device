@@ -21,16 +21,6 @@ pub enum Visibility {
     Private,
 }
 
-// impl Visibility {
-//     fn as_str(&self) -> &'static str {
-//         match self {
-//             Visibility::Unlisted => "unlisted",
-//             Visibility::Public => "public",
-//             Visibility::Private => "private",
-//         }
-//     }
-// }
-
 #[derive(Debug, Subcommand)]
 pub enum Subcommands {
     /// Authenticate with YouTube
@@ -42,10 +32,10 @@ pub enum Subcommands {
     /// Start a stream
     Start {
         /// The name of the stream
-        #[clap(long, short, env)]
+        #[clap(long, short, env = "PBS_TITLE", default_value = "Sacrament Meeting")]
         title: Option<String>,
 
-        #[clap(long, short, env)]
+        #[clap(long, short, env = "PBS_START_VISIBILITY", default_value = "public")]
         visibility: Option<Visibility>,
 
         // The stream key to use (if not provided, a new stream will be created)
@@ -55,11 +45,11 @@ pub enum Subcommands {
     /// Stop a stream
     Stop {
         /// Delete the stream after stopping
-        #[clap(long, short, action, env)]
+        #[clap(long, short, action, env = "PBS_STOP_DELETE")]
         delete: bool,
 
         /// The visibility of the stream after stopping
-        #[clap(short, long, env)]
+        #[clap(short, long, env = "PBS_STOP_VISIBILITY", default_value = "unlisted")]
         visibility: Option<Visibility>
     },
 }

@@ -81,14 +81,6 @@ async fn main() {
                 },
             );
 
-            // let file = File::create("broadcast.json").expect("Couldn't create broadcast.json file");
-            // let broadcast_info = Broadcast {
-            //     id: broadcast_id.to_string(),
-            //     key: stream_key.to_string(),
-            // };
-            // serde_json::to_writer_pretty(file, &broadcast_info)
-            //     .expect("Couldn't write broadcast info to file");
-
             println!(
                 "Go to https://studio.youtube.com/video/{}/livestreaming to view your stream",
                 &broadcast_id
