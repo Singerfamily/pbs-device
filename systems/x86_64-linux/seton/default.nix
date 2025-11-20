@@ -4,7 +4,6 @@
   facter.reportPath = ./facter.json;
 
   environment.variables = {
-    VISIBILITY = "public";
     PBS_WORKING_DIR = "/home/pbs/.pbs";
   };
   
