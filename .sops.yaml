@@ -2,7 +2,7 @@ creation_rules:
   - path_regex: secrets/*.yaml$
     key_groups:
     - age:
-      - age1sc69qpjhpt3s30p2wgssuvse9j6dhzl2e3p2xshq0yr4gqf3ys3qasx5yr # user
+      - age13zzvn95e4tf5rjks5k624x3z30luwwgyp5xsmj250g7njp69au3smm4aw9 # user
       - age15vcpw49v9djmtdz2ssq26rv5mg6el83znzzrvdqfh8ujdvv9rfas5g6lrf # event-horizon
       - age1uqa7qfglrvadgecsnfu9fd7muqh5n9ma5t59lg29vpqw9k4nw5ws0y4wer # seton
       - age1s8yj3utxrwjv90en6n6wtspkv973wyksx2j3xcx50u3nctg649qsukg8qz # dev

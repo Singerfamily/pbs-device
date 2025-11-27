@@ -61,6 +61,16 @@ with lib;
         };
       };
 
+      system.autoUpgrade = {
+        enable = true;
+        flake = "github:singerfamily/pbs-device";
+        flags = [
+          "-L" # print build logs
+        ];
+        dates = "00:00";
+        # randomizedDelaySec = "45min";
+      };
+
       # Inherit common Nix settings.
       nix = { inherit (lib.snowfall.nix) settings; };
 
