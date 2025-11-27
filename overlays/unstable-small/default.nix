@@ -15,7 +15,7 @@
 }:
 
 _final: _prev: {
-  inherit (channels.unstable-smallu)
+  inherit (channels.unstable-small)
     tailscale
     ;
 }

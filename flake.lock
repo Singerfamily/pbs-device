@@ -596,6 +596,7 @@
         "snowfall-lib": "snowfall-lib",
         "sops-nix": "sops-nix",
         "unstable": "unstable",
+        "unstable-small": "unstable-small",
         "vscode-server": "vscode-server"
       }
     },
@@ -704,6 +705,22 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "unstable-small": {
+      "locked": {
+        "lastModified": 1764245472,
+        "narHash": "sha256-udCSZoKawLiNJKFQgikkN96tvVJggs61ihRq8sRt8tM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "6c16b7ce10e5ef1fee3aecfb327be61888818a7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable-small",
         "repo": "nixpkgs",
         "type": "github"
       }
