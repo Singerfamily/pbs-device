@@ -17,6 +17,5 @@
 _final: _prev: {
   inherit (channels.unstable)
     wiremix
-    tailscale
     ;
 }
