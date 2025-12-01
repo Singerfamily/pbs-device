@@ -24,7 +24,9 @@ with lib;
     };
   };
 
+
   config = {
+    snowfallorg.users.pbs.admin = true;
     users.users = mkMerge (
       users
       |> map (username: {

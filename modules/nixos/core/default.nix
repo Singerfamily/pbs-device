@@ -61,6 +61,8 @@ with lib;
         };
       };
 
+      snowfallorg.useGlobalUsers = true;
+
       # Inherit common Nix settings.
       nix = { inherit (lib.snowfall.nix) settings; };
 
@@ -73,7 +75,6 @@ with lib;
           # The default set includes common libraries.
           libraries = [ ];
         };
-
       };
 
       # Populate /usr/bin/ with symlinks to executables in system's $PATH.
@@ -84,16 +85,9 @@ with lib;
       environment.systemPackages =
         with pkgs;
         [
-          dmidecode # Reads information about your system's hardware from the BIOS.
-          file # A program that shows the type of files.
-          hddtemp # Tool for displaying hard disk temperature.
           home-manager # Make sure its always there.
-          inxi # Full featured CLI system information tool.
-          jmtpfs # FUSE filesystem for MTP devices like Android phones.
           pciutils # Tools for working with PCI devices, such as `lspci`.
-          smartmontools # Tools for monitoring the health of hard drives.
           usbutils # Tools for working with USB devices, such as `lsusb`.
-          wget # Tool for retrieving files using HTTP, HTTPS, and FTP.
         ]
         ++ (if use-uutils then with pkgs; [ uutils-coreutils-noprefix ] else [ ]);
 

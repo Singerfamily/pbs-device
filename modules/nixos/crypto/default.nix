@@ -27,10 +27,10 @@ with lib;
       programs.gnupg.agent.enable = true;
       environment.systemPackages = with pkgs; [
         sops # An editor of encrypted files (for `sops-nix`)
-        ssh-to-age # Convert ED25519 SSH private keys to age keys.
+        # ssh-to-age # Convert ED25519 SSH private keys to age keys.
         age # Modern encryption tool with small explicit keys. (Go version)
-        rage # Modern encryption tool with small explicit keys. (Rust version)
-        cryptsetup # LUKS for dm-crypt.
+        # rage # Modern encryption tool with small explicit keys. (Rust version)
+        # cryptsetup # LUKS for dm-crypt.
       ];
     };
 }

@@ -20,8 +20,6 @@ with lib;
   config =
     let
       inherit (config.snowfall.tpm) enable;
-
-      users = builtins.attrNames (config.home-manager.users or { });
     in
     mkMerge [
       # TPM2: common options.
