@@ -24,8 +24,14 @@ with lib;
     };
   };
 
-
   config = {
+    assertions = [
+      {
+        assertion = config.users.users ? pbs;
+        message = "User 'pbs' is not defined and will not be created.";
+      }
+    ];
+
     snowfallorg.users.pbs.admin = true;
     users.users = mkMerge (
       users
