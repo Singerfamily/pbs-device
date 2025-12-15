@@ -3,6 +3,8 @@
 
   networking.firewall = {
     allowedTCPPorts = [
+      80
+      443
       3001 # Selkies Web Interface
     ];
 
