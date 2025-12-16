@@ -31,28 +31,6 @@ with lib;
         ;
     in
     mkMerge [
-      {
-
-        # services.openssh.hostKeys = let
-        #   inherit (config.networking) hostName;
-        # in [
-        #   {
-        #     path = config.sops.secrets."ssh/${hostName}".path;
-        #     type = "ed25519";
-        #   }
-        # ];
-
-        #   assertions = [
-        #     {
-        #       assertion = (server != null);
-        #       message = ''
-        #         Please state explicitly whether to run an SSH server on the machine.
-        #         To do so, set the `snowfall.net.ssh.server` option to `true` or `false`.
-        #       '';
-        #     }
-        #   ];
-      }
-
       (mkIf (enable && server != null) {
         networking.firewall.allowedTCPPorts = lib.mkDefault [ 22 ];
 

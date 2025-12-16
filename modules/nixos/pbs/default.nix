@@ -1,25 +1,6 @@
-{ pkgs, ... }:
-let
-  execPath = "/home/pbs/selkies";
-
-  startScript = pkgs.writeShellScript "start-broadcast" ''
-    ${pkgs.snowfall.pbs}/bin/pbs start &&
-    ${pkgs.docker}/bin/docker compose -f ${execPath}/docker-compose.yml up -d
-  '';
-
-  stopScript = pkgs.writeShellScript "stop-broadcast" ''
-    ${pkgs.docker}/bin/docker compose -f ${execPath}/docker-compose.yml down &&
-    ${pkgs.snowfall.pbs}/bin/pbs stop
-  '';
-in
-{
+{ pkgs, ... }: {
   # Start the pbs-video systemd service when a V4L device appears
   # and stop it when the device is removed.
-
-  # services.udev.extraRules = ''
-  #   ACTION=="add", SUBSYSTEM=="video4linux", KERNEL=="video0", RUN+="${startScript}"
-  #   ACTION=="remove", SUBSYSTEM=="video4linux", KERNEL=="video0", RUN+="${stopScript}"
-  # '';
 
   services.udev.extraRules =
     ''
@@ -28,13 +9,8 @@ in
     '';
 
   environment = {
-    # variables = {
-    #   PBS_WORKING_DIR = "/home/pbs/.pbs";
-    # };
     systemPackages = with pkgs; [
       snowfall.pbs
-      # startScript
-      # stopScript
     ];
   };
 
