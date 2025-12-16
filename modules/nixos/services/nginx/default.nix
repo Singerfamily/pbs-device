@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
 
   networking.firewall = {
@@ -17,11 +17,16 @@
     enable = true;
     virtualHosts = {
       "0.0.0.0" = {
-        # forceSSL = true;
+        addSSL = true;
         # enableACME = true;
+
+        sslCertificate = config.sops.secrets."nginx/public".path;
+        sslCertificateKey = config.sops.secrets."nginx/private".path;
+
         locations = {
           "/" = {
             proxyPass = "https://127.0.0.1:3001";
+            proxyWebsockets = true;
           };
 
           "/obs-ws" = {
@@ -30,6 +35,19 @@
           };
         };
       };
+    };
+  };
+
+  sops.secrets = {
+    "nginx/public" = {
+      key = "certs/nginx/public";
+      sopsFile = ../../../../secrets/secrets.yaml;
+      owner = "nginx";
+    };
+    "nginx/private" = {
+      key = "certs/nginx/private";
+      sopsFile = ../../../../secrets/secrets.yaml;
+      owner = "nginx";
     };
   };
 }
