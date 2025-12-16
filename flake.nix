@@ -135,24 +135,24 @@
           shellHook = ''alias d="deploy"'';
         };
 
-      deploy.nodes = {
-        seton = {
-          hostname = "seton";
-          interactiveSudo = true;
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos inputs.self.nixosConfigurations.seton;
-          };
-        };
-        pbos-dev = {
-          hostname = "pbos-dev";
-          interactiveSudo = true;
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos inputs.self.nixosConfigurations.pbos-dev;
-          };
-        };
-      };
+      deploy.nodes =
+        let
+          hostnames = builtins.attrNames inputs.self.nixosConfigurations;
+        in
+        builtins.listToAttrs (
+          map (hostname: {
+            name = hostname;
+            value = {
+              hostname = hostname;
+              interactiveSudo = false;
+              profiles.system = {
+                sshUser = "root";
+                user = "root";
+                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos inputs.self.nixosConfigurations."${hostname}";
+              };
+            };
+          }) hostnames
+        );
 
       checks = builtins.mapAttrs (
         system: deployLib: deployLib.deployChecks inputs.self.deploy
