@@ -1,2 +1,6 @@
 old/
 .direnv/
+test.nix
+result
+.decrypted~*
+.secret*
