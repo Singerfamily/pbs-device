@@ -1,0 +1,1 @@
+sudo nixos-rebuild switch --flake .#$1 --target-host root@$1 --use-remote-sudo
