@@ -15,7 +15,7 @@
   };
 
   # Expose a system service so udev (which runs as root) can start/stop it
-  systemd.services.pbs =
+  systemd.services.pbs-video =
     let
       exe = "${pkgs.snowfall.yt-cli}/bin/yt-cli";
     in
