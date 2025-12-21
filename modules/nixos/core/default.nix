@@ -61,6 +61,10 @@ with lib;
         };
       };
 
+      # users.motd = ''
+      #   ${pkgs}/bin/
+      # '';
+
       snowfallorg.useGlobalUsers = true;
 
       # Inherit common Nix settings.

@@ -36,7 +36,8 @@
         ExecStopPost = "${pkgs.docker}/bin/docker compose -f /home/pbs/selkies/docker-compose.yml down";
         User = "pbs";
 
-        StopWhenUnneeded = true;
+        # StopWhenUnneeded = true;
+  
         RemainAfterExit = true;
         Type = "oneshot";
       };
