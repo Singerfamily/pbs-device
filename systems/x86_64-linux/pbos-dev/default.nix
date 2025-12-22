@@ -10,10 +10,21 @@
   imports = [
     ./disko.nix
   ];
-  
+
   programs.nix-ld.enable = true;
 
   facter.reportPath = ./facter.json;
+
+  services.pbs = {
+    title = "TESTING ONLY";
+
+    start.visibility = "unlisted";
+
+    end = {
+      visibility = "unlisted";
+      delete = true;
+    };
+  };
 
   # services.udev.extraRules = ''
   #   ACTION=="add", SUBSYSTEM=="video4linux", KERNEL=="video0", RUN+="${startScript}"

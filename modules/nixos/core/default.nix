@@ -61,14 +61,14 @@ with lib;
         };
       };
 
-      programs.bash.shellInit =''
-        ${pkgs.fancy-motd}/bin/motd;
+      # programs.bash.shellInit =''
+      #   ${pkgs.fancy-motd}/bin/motd;
 
-        if [ -n "$(ls /dev/video0 2>/dev/null || echo "")" ]; then
-          echo ""
-          echo "Camera connected at /dev/video0"
-        fi
-      '';
+      #   if [ -n "$(ls /dev/video0 2>/dev/null || echo "")" ]; then
+      #     echo ""
+      #     echo "Camera connected at /dev/video0"
+      #   fi
+      # '';
 
       snowfallorg.useGlobalUsers = true;
 
