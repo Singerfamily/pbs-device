@@ -1,11 +1,4 @@
-{ pkgs, ... }:
-# let
-#   execPath = "/home/pbs/pbs";
-
-#   startScript = "${pkgs.docker}/bin/docker compose -f ${execPath}/docker-compose.yml up -d";
-
-#   stopScript = "${pkgs.docker}/bin/docker compose -f ${execPath}/docker-compose.yml down";
-# in
+{ config, ... }:
 {
   imports = [
     ./disko.nix
@@ -26,20 +19,31 @@
     };
   };
 
-  # services.udev.extraRules = ''
-  #   ACTION=="add", SUBSYSTEM=="video4linux", KERNEL=="video0", RUN+="${startScript}"
-  #   ACTION=="remove", SUBSYSTEM=="video4linux", KERNEL=="video0", RUN+="${stopScript}"
-  # '';
+  networking.wireguard.interfaces = {
+    wg0 = {
+      ips = [
+        "192.168.4.2/24"
+      ];
+      peers = [
+        {
+          allowedIPs = [
+            "0.0.0.0/0"
+          ];
+          endpoint = config.sops.secrets."wireguard/endpoint";
+          publicKey = config.sops.secrets."wireguard/peer_public_key";
+        }
+      ];
+      privateKey = config.sops.secrets."wireguard/private_key";
+    };
+  };
 
-  # services = {
-  #   nginx.enable = true;
-  # };
+  sops.secrets = {
+    "wireguard/private_key" = {
+      sopsFile = ../../../secrets/hosts/pbos-dev.yaml;
+    };
 
-  # services.cage = {
-  #   enable = true;
-  #   user = "pbs";
-  #   program = "${pkgs.firefox}/bin/firefox --kiosk https://youtube.com";
-  # };
+    "wireguard/peer_public_key" = { };
+  };
 
   # networking.hostId = "929ceeca";
 
