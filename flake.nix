@@ -65,7 +65,12 @@
     # NixOS modules covering hardware quirks.
     hardware.url = "github:nixos/nixos-hardware";
 
-    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "unstable";
+    };
+
+    flake-input-patcher.url = "github:jfly/flake-input-patcher";
   };
 
   outputs =
@@ -106,7 +111,18 @@
       # Overlays for Nixpkgs.
       overlays = with inputs; [
         nur.overlays.default
+        deploy-rs.overlays.default # or deploy-rs.overlays.default
+        (self: super: {
+          deploy-rs = {
+            inherit (pkgs) deploy-rs;
+            lib = super.deploy-rs.lib;
+          };
+        })
       ];
+
+      patched-inputs = patcher.patch inputs {
+        deploy-rs.patches = [ ./patches/deploy-rs-nix-2-33.patch ];
+      };
 
       templates = {
       };
@@ -148,7 +164,9 @@
               profiles.system = {
                 sshUser = "root";
                 user = "root";
-                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos inputs.self.nixosConfigurations."${hostname}";
+                path =
+                  inputs.deploy-rs.lib.x86_64-linux.activate.nixos
+                    inputs.self.nixosConfigurations."${hostname}";
               };
             };
           }) hostnames
