@@ -4,7 +4,7 @@ use chrono::prelude::*;
 use google_youtube3::api::*;
 
 // Creation
-pub async fn create_stream_key(title: Option<&str>) -> Result<LiveStream, google_youtube3::Error> {
+pub async fn create_stream_key(title: &str) -> Result<LiveStream, google_youtube3::Error> {
     let yt = authenticate().await;
 
     let mut req = LiveStream::default();
@@ -17,9 +17,7 @@ pub async fn create_stream_key(title: Option<&str>) -> Result<LiveStream, google
     });
 
     req.snippet = Some(LiveStreamSnippet {
-        title: title
-            .map(|t| t.to_string())
-            .or(Some("Sacrament Meeting".to_string())),
+        title: Some(title.to_string()),
         ..Default::default()
     });
 
@@ -63,7 +61,7 @@ pub fn extract_stream_key(stream: &LiveStream) -> &str {
 } 
 
 pub async fn create_broadcast(
-    title: Option<&str>,
+    title: &str,
     visibility: Option<Visibility>,
 ) -> google_youtube3::Result<LiveBroadcast> {
     let yt = authenticate().await;
@@ -71,9 +69,7 @@ pub async fn create_broadcast(
     let mut req = LiveBroadcast::default();
 
     req.snippet = Some(LiveBroadcastSnippet {
-        title: title
-            .map(|t| t.to_string())
-            .or(Some("Sacrament Meeting".to_string())),
+        title: Some(title.to_string()),
         scheduled_start_time: Some(
             Utc::now()
                 .with_minute(0)

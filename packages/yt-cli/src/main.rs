@@ -9,6 +9,7 @@ use crate::youtube::{
 };
 use clap::Parser;
 use serde::{Deserialize, Serialize};
+use chrono::Local;
 
 use serde_json::{from_reader, to_writer};
 use std::io::{BufReader};
@@ -44,13 +45,17 @@ async fn main() {
                 visibility
             );
 
-            let title_ref = title.as_deref();
+            let title_ref = title.as_deref().unwrap_or("Untitled Stream");
 
-            let stream = create_stream_key(title_ref)
+            // Append the current date to the provided title (e.g. "My Stream - 2025-12-28")
+            let date = Local::now().format("%Y-%m-%d").to_string();
+            let title_with_date = format!("{} - {}", title_ref, date);
+
+            let stream = create_stream_key(&title_with_date)
                 .await
                 .expect("Couldn't create stream key");
 
-            let broadcast = create_broadcast(title_ref, visibility)
+            let broadcast = create_broadcast(&title_with_date, visibility)
                 .await
                 .expect("Couldn't create broadcast");
 
