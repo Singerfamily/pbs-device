@@ -75,6 +75,9 @@
 
   outputs =
     { ... }@inputs:
+    let
+      patcher = inputs.flake-input-patcher.lib.x86_64-linux;
+    in
     inputs.snowfall-lib.mkFlake {
       inherit inputs;
       src = builtins.path {
@@ -146,7 +149,7 @@
         in
         pkgs.mkShell {
           packages = [
-            inputs.deploy-rs.packages.${pkgs.system}.deploy-rs
+            inputs.self.patched-inputs.deploy-rs.packages.${pkgs.system}.deploy-rs
           ];
           shellHook = ''alias d="deploy"'';
         };

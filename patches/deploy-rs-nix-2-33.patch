@@ -1,3 +1,4 @@
+diff --git a/src/push.rs b/src/push.rs
 index a206afc..68a421c 100644
 --- a/src/push.rs
 +++ b/src/push.rs
