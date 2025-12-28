@@ -85,11 +85,11 @@ with lib;
           PBS_START_VISIBILITY = cfg.start.visibility;
           PBS_STOP_VISIBILITY = cfg.end.visibility;
 
-          PBS_STOP_DELETE = if cfg.end.delete then "true" else "";
+          PBS_STOP_DELETE = if cfg.end.delete then "true" else "false";
         };
         serviceConfig = {
           # Start the PBS control tool first, then bring up the docker compose stack
-          ExecStart = "${exe} start --title 'Sacrament Meeting' --visibility public";
+          ExecStart = "${exe} start";
           ExecStartPost = "${pkgs.docker}/bin/docker compose -f /home/pbs/selkies/docker-compose.yml up -d";
 
           # Stop docker compose first, then stop the PBS control tool

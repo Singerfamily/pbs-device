@@ -29,16 +29,20 @@
           allowedIPs = [
             "0.0.0.0/0"
           ];
-          endpoint = config.sops.secrets."wireguard/endpoint";
-          publicKey = config.sops.secrets."wireguard/peer_public_key";
+          endpoint = "singerfamily.ca:45620";
+          publicKey = "WhBNoLCiPWzR6fQ4teN3m7T8IR3eSkD+i6xSBhS2bxo=";
+          presharedKeyFile = config.sops.secrets."wireguard/pre_shared_key".path;
         }
       ];
-      privateKey = config.sops.secrets."wireguard/private_key";
+      privateKeyFile = config.sops.secrets."wireguard/private_key".path;
     };
   };
 
   sops.secrets = {
     "wireguard/private_key" = {
+      sopsFile = ../../../secrets/hosts/pbos-dev.yaml;
+    };
+    "wireguard/pre_shared_key" = {
       sopsFile = ../../../secrets/hosts/pbos-dev.yaml;
     };
 
