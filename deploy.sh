@@ -1,1 +1,1 @@
-sudo nixos-rebuild $1 --flake .#$2 --target-host root@$2 --use-remote-sudo
+sudo nixos-rebuild $1 --flake .#$2 --target-host root@$2 --sudo

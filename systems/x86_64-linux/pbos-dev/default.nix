@@ -19,35 +19,32 @@
     };
   };
 
-  networking.wireguard.interfaces = {
-    wg0 = {
-      ips = [
-        "192.168.4.2/24"
-      ];
-      peers = [
-        {
-          allowedIPs = [
-            "0.0.0.0/0"
-          ];
-          endpoint = "singerfamily.ca:45620";
-          publicKey = "WhBNoLCiPWzR6fQ4teN3m7T8IR3eSkD+i6xSBhS2bxo=";
-          presharedKeyFile = config.sops.secrets."wireguard/pre_shared_key".path;
-        }
-      ];
-      privateKeyFile = config.sops.secrets."wireguard/private_key".path;
-    };
-  };
+  # networking.wireguard.interfaces = {
+  #   wg0 = {
+  #     ips = [
+  #       "192.168.4.2/24"
+  #     ];
+  #     peers = [
+  #       {
+  #         endpoint = "singerfamily.ca:45620";
+  #         publicKey = "WhBNoLCiPWzR6fQ4teN3m7T8IR3eSkD+i6xSBhS2bxo=";
+  #         presharedKeyFile = config.sops.secrets."wireguard/pre_shared_key".path;
+  #       }
+  #     ];
+  #     privateKeyFile = config.sops.secrets."wireguard/private_key".path;
+  #   };
+  # };
 
-  sops.secrets = {
-    "wireguard/private_key" = {
-      sopsFile = ../../../secrets/hosts/pbos-dev.yaml;
-    };
-    "wireguard/pre_shared_key" = {
-      sopsFile = ../../../secrets/hosts/pbos-dev.yaml;
-    };
+  # sops.secrets = {
+  #   "wireguard/private_key" = {
+  #     sopsFile = ../../../secrets/hosts/pbos-dev.yaml;
+  #   };
+  #   "wireguard/pre_shared_key" = {
+  #     sopsFile = ../../../secrets/hosts/pbos-dev.yaml;
+  #   };
 
-    "wireguard/peer_public_key" = { };
-  };
+  #   "wireguard/peer_public_key" = { };
+  # };
 
   # networking.hostId = "929ceeca";
 
