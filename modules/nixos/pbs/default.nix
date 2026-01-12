@@ -58,50 +58,57 @@ with lib;
   # Start the pbs-video systemd service when a V4L device appears
   # and stop it when the device is removed.
 
-  config = {
-    services.udev.extraRules = ''
-      ACTION=="add", SUBSYSTEM=="video4linux", KERNEL=="video*", TAG+="systemd", ENV{SYSTEMD_WANTS}="pbs.service"
-      ACTION=="remove", SUBSYSTEM=="video4linux", KERNEL=="video*", RUN+="${pkgs.systemd}/bin/systemctl stop pbs-video.service"
-    '';
+  config =
+    let
+      serviceName = "pbs-video";
+    in
+    {
+      services.udev.extraRules = ''
+        ACTION=="add", SUBSYSTEM=="video4linux", KERNEL=="video*", TAG+="systemd", ENV{SYSTEMD_WANTS}="${serviceName}.service"
+        ACTION=="remove", SUBSYSTEM=="video4linux", KERNEL=="video*", RUN+="${pkgs.systemd}/bin/systemctl stop ${serviceName}.service"
+      '';
 
-    environment.systemPackages = with pkgs; [
-      snowfall.yt-cli
-    ];
+      environment.systemPackages = with pkgs; [
+        snowfall.yt-cli
+      ];
 
-    # Expose a system service so udev (which runs as root) can start/stop it
-    systemd.services.pbs-video =
-      let
-        exe = "${pkgs.snowfall.yt-cli}/bin/yt-cli";
-      in
-      {
-        description = "PBS Video Service";
-        after = [ "network.target" ];
-        # wantedBy = [ "multi-user.target" ];
-        environment = {
-          PBS_WORKING_DIR = "/home/pbs/.pbs";
+      # Expose a system service so udev (which runs as root) can start/stop it
+      systemd.services.${serviceName} =
 
-          PBS_TITLE = cfg.title;
+        {
+          description = "PBS Video Service";
+          after = [ "network.target" ];
+          # wantedBy = [ "multi-user.target" ];
+          environment = {
+            PBS_WORKING_DIR = "/home/pbs/.pbs";
 
-          PBS_START_VISIBILITY = cfg.start.visibility;
-          PBS_STOP_VISIBILITY = cfg.end.visibility;
+            PBS_TITLE = cfg.title;
 
-          PBS_STOP_DELETE = if cfg.end.delete then "true" else "false";
+            PBS_START_VISIBILITY = cfg.start.visibility;
+            PBS_STOP_VISIBILITY = cfg.end.visibility;
+
+            PBS_STOP_DELETE = if cfg.end.delete then "true" else "false";
+          };
+          serviceConfig =
+            let
+              exe = "${pkgs.snowfall.yt-cli}/bin/yt-cli";
+              exec_dir = "/home/pbs/selkies";
+            in
+            {
+              # Start the PBS control tool first, then bring up the docker compose stack
+              ExecStart = "${exe} start";
+              ExecStartPost = "${pkgs.docker}/bin/docker compose -f ${exec_dir}/docker-compose.yml up -d";
+
+              # Stop docker compose first, then stop the PBS control tool
+              ExecStop = "${exe} stop";
+              ExecStopPost = "${pkgs.docker}/bin/docker compose -f ${exec_dir}/docker-compose.yml down";
+              User = "pbs";
+
+              # StopWhenUnneeded = true;
+
+              RemainAfterExit = true;
+              Type = "oneshot";
+            };
         };
-        serviceConfig = {
-          # Start the PBS control tool first, then bring up the docker compose stack
-          ExecStart = "${exe} start";
-          ExecStartPost = "${pkgs.docker}/bin/docker compose -f /home/pbs/selkies/docker-compose.yml up -d";
-
-          # Stop docker compose first, then stop the PBS control tool
-          ExecStop = "${exe} stop";
-          ExecStopPost = "${pkgs.docker}/bin/docker compose -f /home/pbs/selkies/docker-compose.yml down";
-          User = "pbs";
-
-          # StopWhenUnneeded = true;
-
-          RemainAfterExit = true;
-          Type = "oneshot";
-        };
-      };
-  };
+    };
 }
