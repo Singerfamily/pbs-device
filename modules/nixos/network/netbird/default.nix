@@ -4,13 +4,7 @@
     # Automatically login to your Netbird network with a setup key
     # This is mostly useful for server computers.
     # For manual setup instructions, see the wiki page section below.
-    login = {
-      enable = true;
-
-      # Path to a file containing the setup key for your peer
-      # NOTE: if your setup key is reusable, make sure it is not copied to the Nix store.
-      setupKeyFile = config.sops.secrets."netbird".path;
-    };
+    login.enable = true;
 
     # Set this to true if you want the GUI client
     ui.enable = false;
@@ -23,15 +17,10 @@
   };
 
   sops.secrets = {
-    "nginx/public" = {
-      key = "certs/nginx/public";
+    "netbird" = {
+      key = "netbird";
       sopsFile = ../../../../secrets/secrets.yaml;
-      owner = "nginx";
-    };
-    "nginx/private" = {
-      key = "certs/nginx/private";
-      sopsFile = ../../../../secrets/secrets.yaml;
-      owner = "nginx";
+      owner = "netbird";
     };
   };
 }
