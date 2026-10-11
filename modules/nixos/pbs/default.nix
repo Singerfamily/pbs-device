@@ -72,9 +72,16 @@ with lib;
         snowfall.yt-cli
       ];
 
+      systemd.timers."${serviceName}" = {
+        wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "Sun *-*-* 12:30:00";
+            Unit = "${serviceName}.service";
+          };
+      };
+
       # Expose a system service so udev (which runs as root) can start/stop it
       systemd.services.${serviceName} =
-
         {
           description = "PBS Video Service";
           after = [ "network.target" ];
@@ -110,5 +117,25 @@ with lib;
               Type = "oneshot";
             };
         };
+
+      systemd.timers."stop-${serviceName}" = {
+        wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "Sun *-*-* 14:10:00";
+            Unit = "${serviceName}.service";
+          };
+      };
+      
+      systemd.services."stop-${serviceName}" = {
+        script = ''
+          set -eu
+          ${pkgs.systemd}/bin/systemctl stop ${serviceName}.service
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "pbs";
+          RemainAfterExit = true; # Prevents the service from automatically starting on rebuild. See https://discourse.nixos.org/t/how-to-prevent-custom-systemd-service-from-restarting-on-nixos-rebuild-switch/43431
+        };
+      };
     };
 }

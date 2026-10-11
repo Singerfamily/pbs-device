@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   programs.nix-ld.enable = true;
 
   facter.reportPath = ./facter.json;

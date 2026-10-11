@@ -11,7 +11,6 @@ services:
       - "./obs/scripts:/scripts:rw"
       - "./obs/init:/custom-cont-init.d"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/var/run/tailscale:/var/run/tailscale:ro" # Tailscale socket for network access
     environment:
       - PUID=0
       - PGID=0

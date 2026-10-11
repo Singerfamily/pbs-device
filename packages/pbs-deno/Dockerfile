@@ -35,8 +35,6 @@ RUN apt-get update && \
     wget \    
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL https://tailscale.com/install.sh | sh
-
 COPY obs/scripts /scripts
 
 # RUN echo "root,abc ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers

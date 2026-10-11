@@ -16,6 +16,6 @@
 
 _final: _prev: {
   inherit (channels.unstable-small)
-    tailscale
+    netbird
     ;
 }
